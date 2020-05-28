@@ -7,16 +7,17 @@ let H = window.innerHeight - tool_container_height;
 let YFromMouse = 40;
 let sizeSelect = document.getElementById("size");
 let colorSelect = document.getElementById("color");
-let eraser = document.getElementById("eraser")
+let eraser = document.getElementById("eraser");
 let color = document.getElementById("color").value;
 let selected =  false
 let drawing = false;
-let right_clicked = false
-let options = document.getElementsByClassName("color_options")
+let right_clicked = false;
+let options = document.getElementsByClassName("color_options");
+let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#0000ff","#b247ff","#8c6235"];
 
 canvas.width = W;
 canvas.height = H;
-ctx.beginPath()
+ctx.beginPath();
 
 for(let i = 0;i < options.length;i++){
     options[i].style.backgroundColor = options[i].value;
@@ -73,7 +74,12 @@ function changeColor(){
     eraser.style.backgroundColor = "rgb(245,245,245)";
     colorSelect.style.backgroundColor = color;
     colorSelect.style.borderColor = color;
-    colorSelect.style.boxShadow = `0 0 1.5vw ${color}`;
+    if(colorsThatNeedWhite.includes(color)){
+        colorSelect.style.color = "white";
+    }else{
+        colorSelect.style.color = "black";
+    }
+    colorSelect.style.boxShadow = `0 0 1vw ${color}`;
 }
 
 function clearCanvas(){

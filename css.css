@@ -48,10 +48,10 @@ button:hover, #size:hover{
 #color{
     width: 12%;
     border-width: 0.2vw;
-    box-shadow: 0 0 1.5vw;
     border-radius: 0.5vw;
     background: black;
     color: white;
+    box-shadow: 0 0 1vw black;
 }
 option{
     color: white;
