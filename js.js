@@ -45,10 +45,10 @@ function Draw(e){
         ctx.strokeStyle = color;
     }
     ctx.lineCap = "round";
-    ctx.lineTo(e.clientX,e.clientY - YFromMouse);
+    ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
     ctx.stroke();
     ctx.beginPath();
-    ctx.moveTo(e.clientX,e.clientY - YFromMouse);
+    ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
     
 }
 
