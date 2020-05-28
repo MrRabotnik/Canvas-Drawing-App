@@ -36,6 +36,7 @@ button:hover, #size:hover{
     display: flex;
     justify-content: center;
     align-items: center;
+    transition: 0.5s;
 }
 
 #tools_container button,select,div{
