@@ -9,8 +9,14 @@ button,select{
     width: 7%;;
 }
 
-#canvas{
-    border: 1px solid black;
+#tools_container{
+    width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border-bottom: 0.001vw solid black;
 }
 
 #eraser{
@@ -20,7 +26,7 @@ button,select{
     justify-content: center;
     align-items: center;
 }
-div button,select,div{
+#tools_container button,select,div{
     margin:0 2%;
     padding: 0.5% 1%;
     font-size: 1.2vw;

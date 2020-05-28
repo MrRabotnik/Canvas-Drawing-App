@@ -1,26 +1,39 @@
 let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 let btn = document.getElementById("btn");
+let tool_container_height = document.getElementById("tools_container").offsetHeight + 4
 let W = window.innerWidth - 3;
-let H = window.innerHeight - 47;
+let H = window.innerHeight - tool_container_height;
 let YFromMouse = 40;
 let sizeSelect = document.getElementById("size");
 let colorSelect = document.getElementById("color");
 let eraser = document.getElementById("eraser")
 let color = document.getElementById("color").value;
+let selected =  false
+let drawing = false;
+let right_clicked = false
+
 canvas.width = W;
 canvas.height = H;
-
 ctx.beginPath()
-let drawing = false;
 
 function startDrawing(e) {
     drawing = true;
+    if(e.which == 3){
+        eraser.style.backgroundColor = "#ccc";
+        selected =  true
+        e.preventDefault()
+    }
     Draw(e)
 }
 
-function endDrawing() {
+function endDrawing(e) {
     drawing = false;
+    if(e.which == 3){
+        e.preventDefault()
+        selected =  false
+        eraser.style.backgroundColor = "#fff";
+    }
     ctx.beginPath();
 }
 
@@ -36,6 +49,7 @@ function Draw(e){
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(e.clientX,e.clientY - YFromMouse);
+    
 }
 
 function changeSize(){
@@ -54,7 +68,6 @@ function clearCanvas(){
     eraser.style.backgroundColor = "#fff";
     selected =  false
 }
-let selected =  false
 function selectingEraser(){
     if(!selected){
         eraser.style.backgroundColor = "#ccc";
@@ -65,11 +78,12 @@ function selectingEraser(){
     }
 }
 
+
 btn.addEventListener("click",clearCanvas)
 sizeSelect.addEventListener("change",changeSize)
 colorSelect.addEventListener("change",changeColor)
+eraser.addEventListener("click",selectingEraser)
 canvas.addEventListener("mousedown",startDrawing)
 canvas.addEventListener("mouseup",endDrawing)
 canvas.addEventListener("mouseleave",endDrawing)
 canvas.addEventListener("mousemove",Draw)
-eraser.addEventListener("click",selectingEraser)
