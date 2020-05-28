@@ -49,6 +49,7 @@ button:hover, #size:hover{
     width: 12%;
     border-width: 0.2vw;
     border-radius: 0.5vw;
+    border: 0.1vw solid black;
     background: black;
     color: white;
     box-shadow: 0 0 1vw black;
