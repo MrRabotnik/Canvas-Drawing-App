@@ -13,7 +13,7 @@ let selected =  false
 let drawing = false;
 let right_clicked = false;
 let options = document.getElementsByClassName("color_options");
-let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#0000ff","#b247ff","#8c6235"];
+let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#0000ff","#b247ff","#4f2907","#f06f0c","#6e4724","#078a09","#0d5bba"];
 
 canvas.width = W;
 canvas.height = H;
