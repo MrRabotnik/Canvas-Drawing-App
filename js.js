@@ -14,10 +14,12 @@ let drawing = false;
 let right_clicked = false;
 let options = document.getElementsByClassName("color_options");
 let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#8f0000","#0000ff","#b247ff","#4f2907","#f06f0c","#6e4724","#078a09","#0d5bba","#fa05d1"];
+let size = document.getElementById("size").value;
 
 canvas.width = W;
 canvas.height = H;
 ctx.beginPath();
+ctx.lineWidth = size;
 
 for(let i = 0;i < options.length;i++){
     options[i].style.backgroundColor = options[i].value;
@@ -64,7 +66,7 @@ function Draw(e){
 }
 
 function changeSize(){
-    let size = document.getElementById("size").value;
+    size = document.getElementById("size").value;
     ctx.lineWidth = size;
 }
 
@@ -104,7 +106,7 @@ sizeSelect.addEventListener("change",changeSize);
 colorSelect.addEventListener("change",changeColor);
 eraser.addEventListener("click",selectingEraser);
 canvas.addEventListener("mousedown",startDrawing);
-canvas.addEventListener("mouseup",endDrawing);
-canvas.addEventListener("mouseleave",endDrawing);
+document.addEventListener("mouseup",endDrawing);
+canvas.addEventListener("mouseleave",() => {ctx.beginPath()});
 canvas.addEventListener("mousemove",Draw);
 canvas.addEventListener("mousemove",movingTool);

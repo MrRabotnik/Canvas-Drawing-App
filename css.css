@@ -53,6 +53,7 @@ button:hover, #size:hover{
     background: black;
     color: white;
     box-shadow: 0 0 1vw black;
+    transition: 0.5s;
 }
 option{
     color: white;
