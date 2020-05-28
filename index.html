@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paint Duplicate</title>
+    <link rel="stylesheet" href="css.css">
+    <link rel="icon" href="Images/icon.png">
+</head>
+<body>
+    <div style="display: flex;justify-content: center;align-items: center;">
+        <button id="btn">Clear</button>
+
+        <select id="size">
+            <option value="1">1px</option>
+            <option value="3">3px</option>
+            <option value="5">5px</option>
+            <option value="10">10px</option>
+            <option value="20">20px</option>
+            <option value="30">30px</option>
+            <option value="50">50px</option>
+            <option value="10000">Fill</option>
+        </select>
+    
+        <select id="color">
+            <option value="#000">Black</option>
+            <option value="#fff">White</option>
+            <option value="#a1a1a1">Grey</option>
+            <option value="#ff0000">Red</option>
+            <option value="#f7a1a1">Pink</option>
+            <option value="#ffb496">Coral</option>
+            <option value="#0000ff">Blue</option>
+            <option value="#a6eaff">LightBlue</option>
+            <option value="#b247ff">Purple</option>
+            <option value="#00ff00">Green</option>
+            <option value="#7dff66">Limegreen</option>
+            <option value="#afd41c">Lime</option>
+            <option value="#ffff00">Yellow</option>
+            <option value="#ffe5b8">Skin Color</option>
+            <option value="#8c6235">Brown</option>
+            <option value="#bf9a75">Light Brown</option>
+        </select>
+    
+        <div id="eraser">
+            <img src="Images/eraser.png" alt="eraser" width="80%">
+        </div>
+    </div>
+    
+    
+    <canvas id="canvas"></canvas>
+
+    <script src="js.js"></script>
+</body>
+</html>

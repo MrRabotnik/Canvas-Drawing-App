@@ -1,0 +1,33 @@
+body{
+    margin: 0;
+    user-select: none;
+}
+
+button,select{
+    z-index: 2;
+    margin: 0;
+    width: 7%;;
+}
+
+#canvas{
+    border: 1px solid black;
+}
+
+#eraser{
+    margin-right: 0;
+    width: 5%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+div button,select,div{
+    margin:0 2%;
+    padding: 0.5% 1%;
+    font-size: 1.2vw;
+    outline: none;
+    /* border: none; */
+    cursor: pointer;
+}
+#color{
+    width: 12%;
+}
