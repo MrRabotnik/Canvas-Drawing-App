@@ -12,6 +12,7 @@ button,#size{
     box-shadow: 0 0 1vw;
     background: black;
     color: white;
+    transition: 0.8s;
 }
 button:hover, #size:hover{
     background: white;
@@ -53,11 +54,13 @@ button:hover, #size:hover{
     background: black;
     color: white;
     box-shadow: 0 0 1vw black;
-    transition: 0.5s;
+    transition: 1s;
 }
 option{
     color: white;
     background: black;
+    transition: 1s;
+
 }
 
 #color option{
