@@ -26,6 +26,7 @@ button:hover, #size:hover{
     align-items: center;
     box-sizing: border-box;
     border-bottom: 0.001vw solid black;
+    background: rgb(245,245,245);
 }
 
 #eraser{
@@ -35,6 +36,7 @@ button:hover, #size:hover{
     justify-content: center;
     align-items: center;
 }
+
 #tools_container button,select,div{
     margin:0 2%;
     padding: 0.5% 1%;
@@ -42,13 +44,20 @@ button:hover, #size:hover{
     outline: none;
     cursor: pointer;
 }
+
 #color{
     width: 12%;
     border-width: 0.2vw;
     box-shadow: 0 0 1.5vw;
     border-radius: 0.5vw;
+    background: black;
+    color: white;
 }
 option{
-    color: black;
-    background: white;
+    color: white;
+    background: black;
+}
+
+#color option{
+    color: transparent;
 }

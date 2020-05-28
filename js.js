@@ -12,10 +12,15 @@ let color = document.getElementById("color").value;
 let selected =  false
 let drawing = false;
 let right_clicked = false
+let options = document.getElementsByClassName("color_options")
 
 canvas.width = W;
 canvas.height = H;
 ctx.beginPath()
+
+for(let i = 0;i < options.length;i++){
+    options[i].style.backgroundColor = options[i].value;
+}
 
 function movingTool(e){
     // ctx.beginPath()
@@ -66,8 +71,9 @@ function changeColor(){
     color = document.getElementById("color").value;
     selected =  false
     eraser.style.backgroundColor = "#fff";
-    colorSelect.style.borderColor = color
-    colorSelect.style.color = color
+    colorSelect.style.backgroundColor = color;
+    colorSelect.style.borderColor = color;
+    colorSelect.style.boxShadow = `0 0 1.5vw ${color}`;
 }
 
 function clearCanvas(){
@@ -75,6 +81,7 @@ function clearCanvas(){
     eraser.style.backgroundColor = "#fff";
     selected =  false
 }
+
 function selectingEraser(){
     if(!selected){
         eraser.style.backgroundColor = "#ccc";
@@ -86,12 +93,12 @@ function selectingEraser(){
 }
 
 
-btn.addEventListener("click",clearCanvas)
-sizeSelect.addEventListener("change",changeSize)
-colorSelect.addEventListener("change",changeColor)
-eraser.addEventListener("click",selectingEraser)
-canvas.addEventListener("mousedown",startDrawing)
-canvas.addEventListener("mouseup",endDrawing)
-canvas.addEventListener("mouseleave",endDrawing)
-canvas.addEventListener("mousemove",Draw)
-canvas.addEventListener("mousemove",movingTool)
+btn.addEventListener("click",clearCanvas);
+sizeSelect.addEventListener("change",changeSize);
+colorSelect.addEventListener("change",changeColor);
+eraser.addEventListener("click",selectingEraser);
+canvas.addEventListener("mousedown",startDrawing);
+canvas.addEventListener("mouseup",endDrawing);
+canvas.addEventListener("mouseleave",endDrawing);
+canvas.addEventListener("mousemove",Draw);
+canvas.addEventListener("mousemove",movingTool);
