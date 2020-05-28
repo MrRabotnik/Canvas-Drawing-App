@@ -42,7 +42,7 @@ function endDrawing(e) {
     if(e.which == 3){
         e.preventDefault()
         selected =  false
-        eraser.style.backgroundColor = "#fff";
+        eraser.style.backgroundColor = "rgb(245,245,245)";
     }
     ctx.beginPath();
 }
@@ -70,7 +70,7 @@ function changeSize(){
 function changeColor(){
     color = document.getElementById("color").value;
     selected =  false
-    eraser.style.backgroundColor = "#fff";
+    eraser.style.backgroundColor = "rgb(245,245,245)";
     colorSelect.style.backgroundColor = color;
     colorSelect.style.borderColor = color;
     colorSelect.style.boxShadow = `0 0 1.5vw ${color}`;
@@ -78,7 +78,7 @@ function changeColor(){
 
 function clearCanvas(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    eraser.style.backgroundColor = "#fff";
+    eraser.style.backgroundColor = "rgb(245,245,245)";
     selected =  false
 }
 
@@ -87,10 +87,10 @@ function selectingEraser(){
         eraser.style.backgroundColor = "#ccc";
         selected =  true
     }else{
-        eraser.style.backgroundColor = "#fff";
+        eraser.style.backgroundColor = "rgb(245,245,245)";
         selected =  false
     }
-}
+};
 
 
 btn.addEventListener("click",clearCanvas);
