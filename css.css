@@ -3,11 +3,19 @@ body{
     user-select: none;
 }
 
-button,select{
+button,#size{
     z-index: 2;
     margin: 0;
     width: 7%;
-    border-radius: 0.5vw;
+    border-radius: 0.2vw;
+    border: 0.1vw solid black;
+    box-shadow: 0 0 1vw;
+    background: black;
+    color: white;
+}
+button:hover, #size:hover{
+    background: white;
+    color: black;
 }
 
 #tools_container{
@@ -32,15 +40,15 @@ button,select{
     padding: 0.5% 1%;
     font-size: 1.2vw;
     outline: none;
-    /* border: none; */
     cursor: pointer;
 }
 #color{
     width: 12%;
     border-width: 0.2vw;
-    box-shadow: 0 0 1vw;
+    box-shadow: 0 0 1.5vw;
     border-radius: 0.5vw;
 }
 option{
     color: black;
+    background: white;
 }

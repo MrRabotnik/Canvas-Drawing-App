@@ -17,14 +17,19 @@ canvas.width = W;
 canvas.height = H;
 ctx.beginPath()
 
+function movingTool(e){
+    // ctx.beginPath()
+    // ctx.arc(e.clientX,e.clientY,size,0,2 * Math.PI);
+    // ctx.stroke();
+}
 function startDrawing(e) {
     drawing = true;
     if(e.which == 3){
         eraser.style.backgroundColor = "#ccc";
-        selected =  true
-        e.preventDefault()
-    }
-    Draw(e)
+        selected =  true;
+        e.preventDefault();
+    };
+    Draw(e);
 }
 
 function endDrawing(e) {
@@ -89,3 +94,4 @@ canvas.addEventListener("mousedown",startDrawing)
 canvas.addEventListener("mouseup",endDrawing)
 canvas.addEventListener("mouseleave",endDrawing)
 canvas.addEventListener("mousemove",Draw)
+canvas.addEventListener("mousemove",movingTool)
