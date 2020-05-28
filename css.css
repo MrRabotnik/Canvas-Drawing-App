@@ -41,3 +41,6 @@ button,select{
     box-shadow: 0 0 1vw;
     border-radius: 0.5vw;
 }
+option{
+    color: black;
+}
