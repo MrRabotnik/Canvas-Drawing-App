@@ -6,7 +6,8 @@ body{
 button,select{
     z-index: 2;
     margin: 0;
-    width: 7%;;
+    width: 7%;
+    border-radius: 0.5vw;
 }
 
 #tools_container{
@@ -36,4 +37,7 @@ button,select{
 }
 #color{
     width: 12%;
+    border-width: 0.2vw;
+    box-shadow: 0 0 1vw;
+    border-radius: 0.5vw;
 }

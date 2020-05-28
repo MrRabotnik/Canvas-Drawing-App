@@ -61,6 +61,8 @@ function changeColor(){
     color = document.getElementById("color").value;
     selected =  false
     eraser.style.backgroundColor = "#fff";
+    colorSelect.style.borderColor = color
+    colorSelect.style.color = color
 }
 
 function clearCanvas(){
