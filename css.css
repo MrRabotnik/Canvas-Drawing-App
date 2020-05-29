@@ -52,15 +52,15 @@ button,#size{
     margin: 0;
     width: 7%;
     border-radius: 0.2vw;
-    border: 0.1vw solid black;
+    border: 0.1vw solid #111;
     box-shadow: 0 0 1vw;
-    background: black;
+    background: #111;
     color: white;
     transition: 0.8s;
 }
 button:hover, #size:hover{
     background: white;
-    color: black;
+    color: #111;
 }
 
 #tools_container{
@@ -70,7 +70,7 @@ button:hover, #size:hover{
     justify-content: center;
     align-items: center;
     box-sizing: border-box;
-    border-bottom: 0.001vw solid black;
+    border-bottom: 0.001vw solid #111;
     background: rgb(245,245,245);
 }
 
@@ -92,7 +92,7 @@ button:hover, #size:hover{
 }
 
 #color{
-    width: 12%;
+    width: 10%;
     border-width: 0.2vw;
     border-radius: 0.5vw;
     background: black;
@@ -104,7 +104,6 @@ option{
     color: white;
     background: black;
     transition: 1s;
-
 }
 
 #color option{
@@ -119,10 +118,19 @@ option{
     display: none;
 }
 
-#delete_storage{
-    color: black;
-    width: 11%;
+#deleted{
+    color: red;
+    font-size: 1.8vw;
+    position: absolute;
+    left: 2%;
+    display: none;
 }
+
+#delete_storage{
+    color: white;
+    width: 13%;
+}
+
 #delete_storage:hover{
     color: red;
 }

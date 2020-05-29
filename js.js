@@ -18,13 +18,16 @@ let right_clicked = false;
 let options = document.getElementsByClassName("color_options");
 let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#8f0000","#0000ff","#b247ff","#4f2907","#f06f0c","#6e4724","#078a09","#0d5bba","#fa05d1"];
 let size = document.getElementById("size").value;
-let canvasURL,data;
+let canvasURL;
 let canvasIMG = [];
 let saved_text = document.getElementById("saved");
 let delete_storage = document.getElementById("delete_storage");
 let yes_btn = document.getElementById("yes_btn")
 let no_btn = document.getElementById("no_btn")
 let save = document.getElementById("save")
+let deleted_text = document.getElementById("deleted")
+let undo_elements = []
+let index = -1;
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
@@ -36,14 +39,23 @@ ctx.lineWidth = size;
 for(let i = 0;i < options.length;i++){
     options[i].style.backgroundColor = options[i].value;
 }
+
 //=================================================================
 //                        FUNCTIONS
 //=================================================================
+$(window).resize(function(){
+    W = window.innerWidth - 3;
+    H = window.innerHeight - tool_container_height;
+    canvas.width = W;
+    canvas.height = H;
+})
+
 function movingTool(e){
     // ctx.beginPath()
     // ctx.arc(e.clientX,e.clientY,size,0,2 * Math.PI);
     // ctx.stroke();
 }
+ 
 function startDrawing(e) {
     drawing = true;
     if(e.which == 3){
@@ -106,6 +118,14 @@ function clearCanvas(){
     selected =  false
 }
 
+function clearCanvasWithR(e){
+    if(e.which == 114){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        eraser.style.backgroundColor = "rgb(245,245,245)";
+        selected =  false
+    }
+}
+
 function selectingEraser(){
     if(!selected){
         eraser.style.backgroundColor = "#ccc";
@@ -122,6 +142,7 @@ function savingCanvas(e){
         canvasURL = canvas.toDataURL();
         localStorage.setItem("items", canvasURL)
         //Showing and hiding the SAVED text
+        $(deleted_text).hide()
         $(saved_text).fadeIn(1000);
         setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
     }
@@ -131,6 +152,7 @@ function saveButton(){
     canvasURL = canvas.toDataURL();
     localStorage.setItem("items", canvasURL)
     //Showing and hiding the SAVED text
+    $(deleted_text).hide()
     $(saved_text).fadeIn(1000);
     setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
 }
@@ -146,7 +168,12 @@ function settingTheCanvasImage(e){
 }   
 
 function deletingLocalStorage(){
-    localStorage.clear()
+    localStorage.clear();
+    $(saved_text).hide()
+    $(deleted_text).fadeIn(1000);
+    setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
+    undo_elements = []
+    index = -1
 }
 
 function checkingLocalStorage(){
@@ -154,10 +181,40 @@ function checkingLocalStorage(){
         $("#new_or_saved_section").css("display","flex")
     }
 }
+
+function savingCurrentCanvasForUndo(){
+    let undo_elements_URL = canvas.toDataURL()
+    undo_elements.push(undo_elements_URL)
+    console.log(undo_elements)
+    index++
+}
+
+function undo(e){
+    if(e.which = 122){
+        let img = document.getElementById("canvas_img");
+        if(undo_elements.length !== 1){
+            if(index > 0){
+                index--;
+                undo_elements.pop();
+            }
+            img.setAttribute("src",undo_elements[index]);
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            console.log(img)
+            // console.log(img.getAttribute("src"))
+            ctx.drawImage(img,0,0,canvas.width,canvas.height);
+            console.log(undo_elements);
+
+        }else{
+            img.setAttribute("src","");
+            ctx.drawImage(img,0,0,canvas.width,canvas.height);
+            console.log("Array is empty")
+        }
+    }
+}
+
 //=================================================================
 //                        CALLING THE FUNCTIONS
 //=================================================================
-
 btn.addEventListener("click",clearCanvas);
 sizeSelect.addEventListener("change",changeSize);
 colorSelect.addEventListener("change",changeColor);
@@ -169,7 +226,10 @@ document.addEventListener("mouseup",endDrawing);
 canvas.addEventListener("mouseleave",() => {ctx.beginPath()});
 canvas.addEventListener("mousemove",Draw);
 canvas.addEventListener("mousemove",movingTool);
+canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
 document.addEventListener("keypress",savingCanvas);
+document.addEventListener("keypress",undo);
+document.addEventListener("keypress",clearCanvasWithR);
 yes_btn.addEventListener("click",settingTheCanvasImage)
 window.addEventListener("load",checkingLocalStorage)
 delete_storage.addEventListener("click",deletingLocalStorage);

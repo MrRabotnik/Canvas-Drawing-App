@@ -26,17 +26,22 @@
             <i class="fas fa-check-circle"></i>
         </div>
 
+        <div id="deleted">
+            DELETED
+            <i class="fas fa-check-circle"></i>
+        </div>
+
         <button id="save" style="margin-right: 0;">Save</button>
         <button id="btn">Clear</button>
 
         <select id="size">
             <option value="1">1px</option>
-            <option value="3">3px</option>
+            <option value="2">2px</option>
             <option value="5" selected>5px</option>
             <option value="10">10px</option>
             <option value="20">20px</option>
-            <option value="30">30px</option>
             <option value="50">50px</option>
+            <option value="100">100px</option>
             <option value="10000">Fill</option>
         </select>
         
@@ -69,11 +74,9 @@
             <img src="Images/eraser.png" alt="eraser" width="80%">
         </div>
 
-        <div id="delete_storage">
-            DELETE SAVINGS
-        </div>
+        <button id="delete_storage" >DELETE SAVINGS</button>
+
     </div>
-    
     
     <canvas id="canvas" oncontextmenu="return false">
         <img id="canvas_img" src="" alt="">
