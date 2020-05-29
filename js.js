@@ -22,6 +22,9 @@ let canvasURL,data;
 let canvasIMG = [];
 let saved_text = document.getElementById("saved");
 let delete_storage = document.getElementById("delete_storage");
+let yes_btn = document.getElementById("yes_btn")
+let no_btn = document.getElementById("no_btn")
+let save = document.getElementById("save")
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
@@ -33,7 +36,6 @@ ctx.lineWidth = size;
 for(let i = 0;i < options.length;i++){
     options[i].style.backgroundColor = options[i].value;
 }
-
 //=================================================================
 //                        FUNCTIONS
 //=================================================================
@@ -115,16 +117,22 @@ function selectingEraser(){
 };
 
 function savingCanvas(e){
-    if(e.ctrlKey){
-        console.log("sasd")
-    }else if(e.which == 115){
+    e.preventDefault()
+    if(e.which == 115){
         canvasURL = canvas.toDataURL();
         localStorage.setItem("items", canvasURL)
-
         //Showing and hiding the SAVED text
         $(saved_text).fadeIn(1000);
         setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
     }
+}
+
+function saveButton(){
+    canvasURL = canvas.toDataURL();
+    localStorage.setItem("items", canvasURL)
+    //Showing and hiding the SAVED text
+    $(saved_text).fadeIn(1000);
+    setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
 }
 
 function settingTheCanvasImage(e){
@@ -135,13 +143,17 @@ function settingTheCanvasImage(e){
         img.setAttribute("src","");
     }
     ctx.drawImage(img,0,0,canvas.width,canvas.height);
-
 }   
 
 function deletingLocalStorage(){
     localStorage.clear()
 }
 
+function checkingLocalStorage(){
+    if(localStorage.getItem("items")){
+        $("#new_or_saved_section").css("display","flex")
+    }
+}
 //=================================================================
 //                        CALLING THE FUNCTIONS
 //=================================================================
@@ -157,16 +169,11 @@ document.addEventListener("mouseup",endDrawing);
 canvas.addEventListener("mouseleave",() => {ctx.beginPath()});
 canvas.addEventListener("mousemove",Draw);
 canvas.addEventListener("mousemove",movingTool);
-// document.addEventListener("keypress",savingCanvas);
-setTimeout(settingTheCanvasImage,500)
+document.addEventListener("keypress",savingCanvas);
+yes_btn.addEventListener("click",settingTheCanvasImage)
+window.addEventListener("load",checkingLocalStorage)
 delete_storage.addEventListener("click",deletingLocalStorage);
-
-
-
-
-function showChar(e){
-    alert(
-      "Key Pressed: " + e.key + "\n"
-      + "CTRL key pressed: " + e.ctrlKey + "\n"
-    );
-  }
+save.addEventListener("click",saveButton);
+$(".new_or_saved_btns").click(function(){
+    $("#new_or_saved_section").fadeOut(500)
+})

@@ -9,13 +9,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
-<body onkeypress="savingCanvas(event);">
+<body>
+    <div id="new_or_saved_section">
+        <div class="new_or_saved_box">
+            <h3>Looks like you have saved work, want to continue?</h3>
+            <div class="new_or_saved_btns_container">
+                <div class="new_or_saved_btns" id="yes_btn">Yes</div>
+                <div class="new_or_saved_btns" id="no_btn">No</div>
+            </div>
+        </div>
+    </div>
+
     <div id="tools_container">
         <div id="saved">
             SAVED
             <i class="fas fa-check-circle"></i>
         </div>
 
+        <button id="save" style="margin-right: 0;">Save</button>
         <button id="btn">Clear</button>
 
         <select id="size">

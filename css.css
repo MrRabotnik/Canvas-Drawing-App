@@ -2,6 +2,50 @@ body{
     margin: 0;
     user-select: none;
 }
+a{
+    text-decoration: none;
+    color: indigo;
+}
+
+#new_or_saved_section{
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 3;
+    width: 100%;
+    height: 100vh;
+    background: whitesmoke;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    color: indigo;
+    display: none;
+}
+.new_or_saved_box{
+    width: 42%;
+    font-size: 2vw;
+    text-align: center;
+}
+.new_or_saved_btns_container{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+.new_or_saved_btns{
+    font-size: 2vw;
+    border: 0.1vw solid indigo;
+    width: 15%;
+    background: white;
+    padding: 1% 5%;
+}
+.new_or_saved_btns:hover{
+    background: indigo;
+    color: white;
+}
+.new_or_saved_btns:hover a{
+    color: white;
+}
 
 button,#size{
     z-index: 2;
