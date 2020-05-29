@@ -115,14 +115,14 @@ function clearCanvas(){
     // ctx.fillRect(0,0,canvas.width,canvas.height);
     // ctx.fill()
     eraser.style.backgroundColor = "rgb(245,245,245)";
-    selected =  false
+    selected =  false;
 }
 
 function clearCanvasWithR(e){
     if(e.which == 114){
         ctx.clearRect(0,0,canvas.width,canvas.height);
         eraser.style.backgroundColor = "rgb(245,245,245)";
-        selected =  false
+        selected =  false;
     }
 }
 
@@ -140,9 +140,9 @@ function savingCanvas(e){
     e.preventDefault()
     if(e.which == 115){
         canvasURL = canvas.toDataURL();
-        localStorage.setItem("items", canvasURL)
+        localStorage.setItem("items", canvasURL);
         //Showing and hiding the SAVED text
-        $(deleted_text).hide()
+        $(deleted_text).hide();
         $(saved_text).fadeIn(1000);
         setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
     }
@@ -150,9 +150,9 @@ function savingCanvas(e){
 
 function saveButton(){
     canvasURL = canvas.toDataURL();
-    localStorage.setItem("items", canvasURL)
+    localStorage.setItem("items", canvasURL);
     //Showing and hiding the SAVED text
-    $(deleted_text).hide()
+    $(deleted_text).hide();
     $(saved_text).fadeIn(1000);
     setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
 }
@@ -169,45 +169,48 @@ function settingTheCanvasImage(e){
 
 function deletingLocalStorage(){
     localStorage.clear();
-    $(saved_text).hide()
+    $(saved_text).hide();
     $(deleted_text).fadeIn(1000);
     setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
-    undo_elements = []
-    index = -1
+    undo_elements = [];
+    index = -1;
 }
 
 function checkingLocalStorage(){
     if(localStorage.getItem("items")){
-        $("#new_or_saved_section").css("display","flex")
+        $("#new_or_saved_section").css("display","flex");
     }
 }
 
 function savingCurrentCanvasForUndo(){
-    let undo_elements_URL = canvas.toDataURL()
-    undo_elements.push(undo_elements_URL)
-    console.log(undo_elements)
-    index++
+    let undo_elements_URL = canvas.toDataURL();
+    undo_elements.push(undo_elements_URL);
+    console.log(undo_elements);
+    index++;
 }
 
 function undo(e){
-    if(e.which = 122){
+    if(e.which == 122){
         let img = document.getElementById("canvas_img");
         if(undo_elements.length !== 1){
             if(index > 0){
                 index--;
-                undo_elements.pop();
             }
             img.setAttribute("src",undo_elements[index]);
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            console.log(img)
-            // console.log(img.getAttribute("src"))
             ctx.drawImage(img,0,0,canvas.width,canvas.height);
             console.log(undo_elements);
-
         }else{
             img.setAttribute("src","");
             ctx.drawImage(img,0,0,canvas.width,canvas.height);
-            console.log("Array is empty")
+            console.log("Array is empty");
+        }
+    }
+}
+
+function redo(e){
+    if(e.which == 121){
+        if(index == undo_elements.length){
+            index++;
         }
     }
 }
@@ -229,11 +232,13 @@ canvas.addEventListener("mousemove",movingTool);
 canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
 document.addEventListener("keypress",savingCanvas);
 document.addEventListener("keypress",undo);
+document.addEventListener("keypress",redo);
 document.addEventListener("keypress",clearCanvasWithR);
 yes_btn.addEventListener("click",settingTheCanvasImage)
 window.addEventListener("load",checkingLocalStorage)
 delete_storage.addEventListener("click",deletingLocalStorage);
 save.addEventListener("click",saveButton);
+
 $(".new_or_saved_btns").click(function(){
-    $("#new_or_saved_section").fadeOut(500)
+    $("#new_or_saved_section").fadeOut(500);
 })
