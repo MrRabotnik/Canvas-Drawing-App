@@ -6,6 +6,8 @@
     <title>Paint Duplicate</title>
     <link rel="stylesheet" href="css.css">
     <link rel="icon" href="Images/icon.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
 <body>
     <div id="tools_container">
@@ -50,11 +52,20 @@
         <div id="eraser">
             <img src="Images/eraser.png" alt="eraser" width="80%">
         </div>
+
+        <div id="saved">
+            SAVED
+            <i class="fas fa-check-circle"></i>
+        </div>
     </div>
     
     
-    <canvas id="canvas" oncontextmenu="return false"></canvas>
+    <canvas id="canvas" oncontextmenu="return false">
+        <img id="canvas_img" src="" alt="">
+    </canvas>
 
+
+    <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="js.js"></script>
 </body>
 </html>

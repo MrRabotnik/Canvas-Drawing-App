@@ -15,6 +15,10 @@ let right_clicked = false;
 let options = document.getElementsByClassName("color_options");
 let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#8f0000","#0000ff","#b247ff","#4f2907","#f06f0c","#6e4724","#078a09","#0d5bba","#fa05d1"];
 let size = document.getElementById("size").value;
+let canvasURL;
+let canvasIMG = [];
+let img = document.getElementById("canvas_img")
+let saved_text = document.getElementById("saved")
 
 canvas.width = W;
 canvas.height = H;
@@ -81,7 +85,7 @@ function changeColor(){
     }else{
         colorSelect.style.color = "black";
     }
-    colorSelect.style.boxShadow = `0 0 1vw ${color}`;
+    
 }
 
 function clearCanvas(){
@@ -100,13 +104,62 @@ function selectingEraser(){
     }
 };
 
+function savingCanvas(e){
+    if(e.which == 115){
+        canvasURL = canvas.toDataURL();
+        canvasIMG.push(canvasURL);
+        console.log(canvasIMG);
+        img.setAttribute("src",canvasIMG[0]);
+        $(saved_text).fadeIn(1000)
+        setTimeout(() => {$(saved_text).fadeOut(1000)},3000)
+    }
+}
+
+function settingTheCanvasImage(e){
+    if(e.which == 13){
+        ctx.drawImage(img,0,0,W,H)
+    }
+}
+
+
 
 btn.addEventListener("click",clearCanvas);
 sizeSelect.addEventListener("change",changeSize);
 colorSelect.addEventListener("change",changeColor);
+colorSelect.addEventListener("mouseover",() => {colorSelect.style.boxShadow = `0 0 1vw ${color}`;})
+colorSelect.addEventListener("mouseout",() => {colorSelect.style.boxShadow = `none`;})
 eraser.addEventListener("click",selectingEraser);
 canvas.addEventListener("mousedown",startDrawing);
 document.addEventListener("mouseup",endDrawing);
 canvas.addEventListener("mouseleave",() => {ctx.beginPath()});
 canvas.addEventListener("mousemove",Draw);
 canvas.addEventListener("mousemove",movingTool);
+document.addEventListener("keypress",savingCanvas);
+document.addEventListener("keypress",settingTheCanvasImage);
+
+
+
+
+
+
+
+
+// localStorage.setItem("name","Sargis ")
+// let item = localStorage.getItem("name")
+// console.log(localStorage)
+// console.log(item)
+// localStorage.clear()
+// console.log(localStorage)
+// let itemsArray = []
+// localStorage.setItem('items', JSON.stringify(itemsArray))
+// const data = JSON.parse(localStorage.getItem('items'))
+// e.preventDefault()
+
+// itemsArray.push(input.value)
+// localStorage.setItem('items', JSON.stringify(itemsArray))
+// data.forEach(item => {
+//     liMaker(item)
+// })   
+// button.addEventListener('click', function() {
+//     localStorage.clear()
+// })
