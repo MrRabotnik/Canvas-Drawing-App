@@ -1,3 +1,6 @@
+//=================================================================
+//                        DEFINING VARIABLES
+//=================================================================
 let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 let btn = document.getElementById("btn");
@@ -15,20 +18,27 @@ let right_clicked = false;
 let options = document.getElementsByClassName("color_options");
 let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#8f0000","#0000ff","#b247ff","#4f2907","#f06f0c","#6e4724","#078a09","#0d5bba","#fa05d1"];
 let size = document.getElementById("size").value;
-let canvasURL;
+let canvasURL,data;
 let canvasIMG = [];
 let img = document.getElementById("canvas_img")
 let saved_text = document.getElementById("saved")
+let itemsArray = []
 
+//=================================================================
+//                        WINDOW ON LOAD FUNCTIONS
+//=================================================================
+localStorage.setItem('items', JSON.stringify(itemsArray))
 canvas.width = W;
 canvas.height = H;
 ctx.beginPath();
 ctx.lineWidth = size;
-
 for(let i = 0;i < options.length;i++){
     options[i].style.backgroundColor = options[i].value;
 }
 
+//=================================================================
+//                        FUNCTIONS
+//=================================================================
 function movingTool(e){
     // ctx.beginPath()
     // ctx.arc(e.clientX,e.clientY,size,0,2 * Math.PI);
@@ -85,11 +95,13 @@ function changeColor(){
     }else{
         colorSelect.style.color = "black";
     }
-    
 }
 
 function clearCanvas(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
+    // ctx.fillStyle = "white";
+    // ctx.fillRect(0,0,canvas.width,canvas.height);
+    // ctx.fill()
     eraser.style.backgroundColor = "rgb(245,245,245)";
     selected =  false
 }
@@ -107,21 +119,27 @@ function selectingEraser(){
 function savingCanvas(e){
     if(e.which == 115){
         canvasURL = canvas.toDataURL();
-        canvasIMG.push(canvasURL);
-        console.log(canvasIMG);
-        img.setAttribute("src",canvasIMG[0]);
-        $(saved_text).fadeIn(1000)
-        setTimeout(() => {$(saved_text).fadeOut(1000)},3000)
+        itemsArray.push(canvasURL);
+        localStorage.setItem('items', JSON.stringify(itemsArray))
+
+        //Showing and hiding the SAVED text
+        $(saved_text).fadeIn(1000);
+        setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
     }
 }
 
 function settingTheCanvasImage(e){
     if(e.which == 13){
-        ctx.drawImage(img,0,0,W,H)
+        data = JSON.parse(localStorage.getItem('items'));
+        img.setAttribute("src",data[data.length - 1]);
+        ctx.drawImage(img,0,0,canvas.width,canvas.height);
     }
 }
 
 
+//=================================================================
+//                        CALLING THE FUNCTIONS
+//=================================================================
 
 btn.addEventListener("click",clearCanvas);
 sizeSelect.addEventListener("change",changeSize);
@@ -144,22 +162,7 @@ document.addEventListener("keypress",settingTheCanvasImage);
 
 
 
-// localStorage.setItem("name","Sargis ")
-// let item = localStorage.getItem("name")
-// console.log(localStorage)
-// console.log(item)
-// localStorage.clear()
-// console.log(localStorage)
-// let itemsArray = []
-// localStorage.setItem('items', JSON.stringify(itemsArray))
-// const data = JSON.parse(localStorage.getItem('items'))
-// e.preventDefault()
 
-// itemsArray.push(input.value)
-// localStorage.setItem('items', JSON.stringify(itemsArray))
 // data.forEach(item => {
 //     liMaker(item)
 // })   
-// button.addEventListener('click', function() {
-//     localStorage.clear()
-// })
