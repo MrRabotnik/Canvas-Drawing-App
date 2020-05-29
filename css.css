@@ -74,3 +74,11 @@ option{
     left: 2%;
     display: none;
 }
+
+#delete_storage{
+    color: black;
+    width: 11%;
+}
+#delete_storage:hover{
+    color: red;
+}

@@ -9,13 +9,13 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
 </head>
-<body>
+<body onkeypress="savingCanvas(event);">
     <div id="tools_container">
         <div id="saved">
             SAVED
             <i class="fas fa-check-circle"></i>
         </div>
-        
+
         <button id="btn">Clear</button>
 
         <select id="size">
@@ -58,7 +58,9 @@
             <img src="Images/eraser.png" alt="eraser" width="80%">
         </div>
 
-
+        <div id="delete_storage">
+            DELETE SAVINGS
+        </div>
     </div>
     
     

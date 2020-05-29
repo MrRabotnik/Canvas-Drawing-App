@@ -20,14 +20,12 @@ let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#8f0000","#0000ff","#b247
 let size = document.getElementById("size").value;
 let canvasURL,data;
 let canvasIMG = [];
-let img = document.getElementById("canvas_img")
-let saved_text = document.getElementById("saved")
-let itemsArray = []
+let saved_text = document.getElementById("saved");
+let delete_storage = document.getElementById("delete_storage");
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
 //=================================================================
-localStorage.setItem('items', JSON.stringify(itemsArray))
 canvas.width = W;
 canvas.height = H;
 ctx.beginPath();
@@ -117,10 +115,11 @@ function selectingEraser(){
 };
 
 function savingCanvas(e){
-    if(e.which == 115){
+    if(e.ctrlKey){
+        console.log("sasd")
+    }else if(e.which == 115){
         canvasURL = canvas.toDataURL();
-        itemsArray.push(canvasURL);
-        localStorage.setItem('items', JSON.stringify(itemsArray))
+        localStorage.setItem("items", canvasURL)
 
         //Showing and hiding the SAVED text
         $(saved_text).fadeIn(1000);
@@ -129,13 +128,19 @@ function savingCanvas(e){
 }
 
 function settingTheCanvasImage(e){
-    if(e.which == 13){
-        data = JSON.parse(localStorage.getItem('items'));
-        img.setAttribute("src",data[data.length - 1]);
-        ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    let img = document.getElementById("canvas_img");
+    if(localStorage.getItem("items")){
+        img.setAttribute("src",localStorage.getItem("items"));
+    }else{
+        img.setAttribute("src","");
     }
-}
+    ctx.drawImage(img,0,0,canvas.width,canvas.height);
 
+}   
+
+function deletingLocalStorage(){
+    localStorage.clear()
+}
 
 //=================================================================
 //                        CALLING THE FUNCTIONS
@@ -152,17 +157,16 @@ document.addEventListener("mouseup",endDrawing);
 canvas.addEventListener("mouseleave",() => {ctx.beginPath()});
 canvas.addEventListener("mousemove",Draw);
 canvas.addEventListener("mousemove",movingTool);
-document.addEventListener("keypress",savingCanvas);
-document.addEventListener("keypress",settingTheCanvasImage);
+// document.addEventListener("keypress",savingCanvas);
+setTimeout(settingTheCanvasImage,500)
+delete_storage.addEventListener("click",deletingLocalStorage);
 
 
 
 
-
-
-
-
-
-// data.forEach(item => {
-//     liMaker(item)
-// })   
+function showChar(e){
+    alert(
+      "Key Pressed: " + e.key + "\n"
+      + "CTRL key pressed: " + e.ctrlKey + "\n"
+    );
+  }
