@@ -24,6 +24,7 @@ let saved_text = document.getElementById("saved");
 let delete_storage = document.getElementById("delete_storage");
 let yes_btn = document.getElementById("yes_btn")
 let no_btn = document.getElementById("no_btn")
+let img = document.getElementById("canvas_img");
 let save = document.getElementById("save")
 let deleted_text = document.getElementById("deleted")
 let undo_elements = []
@@ -37,6 +38,8 @@ let toolSelection = {
     tool_circle_fill:"fas fa-circle",
     tool_circle_stroke:"far fa-circle",
 }
+let currentToolContainer = document.getElementById("currentToolContainer")
+let CtrlPressed = false
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
@@ -99,15 +102,29 @@ function Draw(e){
     ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
 }
 
-function savingCanvas(e){
+function pressedCtrl(e){
     e.preventDefault()
-    if(e.which == 115){
-        canvasURL = canvas.toDataURL();
-        localStorage.setItem("items", canvasURL);
-        //Showing and hiding the SAVED text
-        $(deleted_text).hide();
-        $(saved_text).fadeIn(1000);
-        setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
+    if(e.which == 17){
+        CtrlPressed = true
+    }
+}
+
+function relisedCtrl(e){
+    if(e.which == 17){
+        CtrlPressed = false
+    }
+}
+
+function savingCanvas(e){
+    if(CtrlPressed){
+        if(e.which == 83){
+            canvasURL = canvas.toDataURL();
+            localStorage.setItem("items", canvasURL);
+            //Showing and hiding the SAVED text
+            $(deleted_text).hide();
+            $(saved_text).fadeIn(1000);
+            setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
+        }
     }
 }
 
@@ -147,6 +164,12 @@ function changeColor(){
     dropDown.style.color = color;
 }
 
+function applyingTools(){
+    let currentToolClass = this.id
+    currentToolContainer.innerHTML = ""
+    currentToolContainer.innerHTML = `<i class="${toolSelection[currentToolClass]}"></i>`;
+}
+
 function selectingEraser(){
     if(!selected){
         eraser.style.backgroundColor = "#ccc";
@@ -165,14 +188,11 @@ function saveButton(){
     setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
 }
 
-function settingTheCanvasImage(e){
-    let img = document.getElementById("canvas_img");
-    if(localStorage.getItem("items")){
-        img.setAttribute("src",localStorage.getItem("items"));
-    }else{
-        img.setAttribute("src","");
-    }
+function settingTheCanvasImage(){
+    // ctx.fillStyle = "white";
+    // ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.drawImage(img,0,0,canvas.width,canvas.height);
+    console.log(img)
 }   
 
 function deletingLocalStorage(){
@@ -185,18 +205,24 @@ function deletingLocalStorage(){
 }
 
 function clearSavingsWithDel(e){
-    if(e.which == 46){
-        localStorage.clear();
-        $(saved_text).hide();
-        $(deleted_text).fadeIn(1000);
-        setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
-        undo_elements = [];
-        index = -1;
+    if(CtrlPressed){
+        if(e.which == 46){
+            localStorage.clear();
+            $(saved_text).hide();
+            $(deleted_text).fadeIn(1000);
+            setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
+            undo_elements = [];
+            index = -1;
+        }
     }
 }
+
 function checkingLocalStorage(){
     if(localStorage.getItem("items")){
         $("#new_or_saved_section").css("display","flex");
+        img.setAttribute("src",localStorage.getItem("items"));
+    }else{
+        img.setAttribute("src","");
     }
 }
 
@@ -208,27 +234,31 @@ function savingCurrentCanvasForUndo(){
 }
 
 function undo(e){
-    if(e.which == 122){
-        let img = document.getElementById("canvas_img");
-        if(undo_elements.length !== 1){
-            if(index > 0){
-                index--;
+    if(CtrlPressed){
+        if(e.which == 122){
+            let img = document.getElementById("canvas_img");
+            if(undo_elements.length !== 1){
+                if(index > 0){
+                    index--;
+                }
+                img.setAttribute("src",undo_elements[index]);
+                ctx.drawImage(img,0,0,canvas.width,canvas.height);
+                console.log(undo_elements);
+            }else{
+                img.setAttribute("src","");
+                ctx.drawImage(img,0,0,canvas.width,canvas.height);
+                console.log("Array is empty");
             }
-            img.setAttribute("src",undo_elements[index]);
-            ctx.drawImage(img,0,0,canvas.width,canvas.height);
-            console.log(undo_elements);
-        }else{
-            img.setAttribute("src","");
-            ctx.drawImage(img,0,0,canvas.width,canvas.height);
-            console.log("Array is empty");
         }
     }
 }
 
 function redo(e){
-    if(e.which == 121){
-        if(index == undo_elements.length){
-            index++;
+    if(CtrlPressed){
+        if(e.which == 121){
+            if(index == undo_elements.length){
+                index++;
+            }
         }
     }
 }
@@ -248,12 +278,14 @@ canvas.addEventListener("mouseleave",() => {ctx.beginPath()});
 canvas.addEventListener("mousemove",Draw);
 canvas.addEventListener("mousemove",movingTool);
 canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
-document.addEventListener("keypress",savingCanvas);
+document.addEventListener("keydown",savingCanvas);
 document.addEventListener("keypress",undo);
 document.addEventListener("keypress",redo);
 document.addEventListener("keypress",clearCanvasWithR);
-yes_btn.addEventListener("click",settingTheCanvasImage)
+document.addEventListener("keydown",pressedCtrl)
+document.addEventListener("keyup",relisedCtrl)
 window.addEventListener("load",checkingLocalStorage)
+yes_btn.addEventListener("click",settingTheCanvasImage)
 delete_storage.addEventListener("click",deletingLocalStorage);
 document.addEventListener("keydown",clearSavingsWithDel);
 save.addEventListener("click",saveButton);
@@ -284,3 +316,5 @@ $("#info_btn").mouseenter(function(){
 $("#info_btn").mouseleave(function(){
     $("#info_box").hide()
 })
+
+$(".tool_favicon_container").click(applyingTools)
