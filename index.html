@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Paint Duplicate</title>
+    <title>DRAWING APP</title>
     <link rel="stylesheet" href="css.css">
     <link rel="icon" href="Images/icon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js"></script>
@@ -32,6 +32,7 @@
         </div>
 
         <button id="save" style="margin-right: 0;">Save</button>
+
         <button id="btn">Clear</button>
 
         <select id="size">
@@ -70,12 +71,78 @@
             <option class="color_options" value="#6e4724">#6e4724</option>
         </select>
     
-        <div id="eraser">
-            <img src="Images/eraser.png" alt="eraser" width="80%">
+        <div id="tools">
+            <i class="fas fa-pencil-alt"></i>
+            <i id="downAndUpArrow" class="fas fa-caret-down"></i>
+            <div id="drop_down">
+                <div>
+                    <div class="tool_favicon_container" id="tool_pencil" value>
+                        <i class="fas fa-pencil-alt"></i>
+                    </div>
+
+                    <div class="tool_favicon_container" id="tool_fill">
+                        <i class="fas fa-fill-drip"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="tool_favicon_container" id="tool_square_fill">
+                        <i class="fas fa-square"></i>
+                    </div>
+
+                    <div class="tool_favicon_container" id="tool_square_stroke">
+                        <i class="far fa-square"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <div class="tool_favicon_container" id="tool_circle_fill">
+                        <i class="fas fa-circle"></i>
+                    </div>
+
+                    <div class="tool_favicon_container" id="tool_circle_stroke">
+                        <i class="far fa-circle"></i>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <button id="delete_storage" >DELETE SAVINGS</button>
 
+
+        <div id="eraser">
+            <img src="Images/eraser.png" alt="eraser" width="100%">
+        </div>
+
+        <button id="delete_storage" >
+            <i class="fas fa-trash"></i>
+            Savings
+        </button>
+
+        <button id="info_btn">
+            <i class="fas fa-info-circle"></i>
+        </button>
+
+        <div id="info_box">
+            <div>
+                <kbd>Ctrl + s </kbd> to Save the Image
+            </div><br/>
+
+            <div>
+                <kbd>Delete </kbd> to Delete the Savings
+            </div><br/>
+
+            <div>
+                <kbd>Ctrl + z </kbd> to Undo the Drawing
+            </div><br/>
+
+            <div>
+                <kbd>Ctrl + y </kbd> to Redo the Drawing
+            </div><br/>
+
+            <div>
+                <kbd>Ctrl + r </kbd> to Clear the Image
+            </div>
+        </div>
     </div>
     
     <canvas id="canvas" oncontextmenu="return false">

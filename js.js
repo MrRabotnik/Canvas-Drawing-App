@@ -28,6 +28,15 @@ let save = document.getElementById("save")
 let deleted_text = document.getElementById("deleted")
 let undo_elements = []
 let index = -1;
+let dropDown = document.getElementById("drop_down")
+let toolSelection = {
+    tool_pencil:"fas fa-pencil-alt",
+    tool_fill:"fas fa-fill-drip",
+    tool_square_fill:"fas fa-square",
+    tool_square_stroke:"far fa-square",
+    tool_circle_fill:"fas fa-circle",
+    tool_circle_stroke:"far fa-circle",
+}
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
@@ -88,24 +97,17 @@ function Draw(e){
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
-    
 }
 
-function changeSize(){
-    size = document.getElementById("size").value;
-    ctx.lineWidth = size;
-}
-
-function changeColor(){
-    color = document.getElementById("color").value;
-    selected =  false
-    eraser.style.backgroundColor = "rgb(245,245,245)";
-    colorSelect.style.backgroundColor = color;
-    colorSelect.style.borderColor = color;
-    if(colorsThatNeedWhite.includes(color)){
-        colorSelect.style.color = "white";
-    }else{
-        colorSelect.style.color = "black";
+function savingCanvas(e){
+    e.preventDefault()
+    if(e.which == 115){
+        canvasURL = canvas.toDataURL();
+        localStorage.setItem("items", canvasURL);
+        //Showing and hiding the SAVED text
+        $(deleted_text).hide();
+        $(saved_text).fadeIn(1000);
+        setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
     }
 }
 
@@ -126,6 +128,25 @@ function clearCanvasWithR(e){
     }
 }
 
+function changeSize(){
+    size = document.getElementById("size").value;
+    ctx.lineWidth = size;
+}
+
+function changeColor(){
+    color = document.getElementById("color").value;
+    selected =  false
+    eraser.style.backgroundColor = "rgb(245,245,245)";
+    colorSelect.style.backgroundColor = color;
+    colorSelect.style.borderColor = color;
+    if(colorsThatNeedWhite.includes(color)){
+        colorSelect.style.color = "white";
+    }else{
+        colorSelect.style.color = "black";
+    }
+    dropDown.style.color = color;
+}
+
 function selectingEraser(){
     if(!selected){
         eraser.style.backgroundColor = "#ccc";
@@ -136,22 +157,9 @@ function selectingEraser(){
     }
 };
 
-function savingCanvas(e){
-    e.preventDefault()
-    if(e.which == 115){
-        canvasURL = canvas.toDataURL();
-        localStorage.setItem("items", canvasURL);
-        //Showing and hiding the SAVED text
-        $(deleted_text).hide();
-        $(saved_text).fadeIn(1000);
-        setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
-    }
-}
-
 function saveButton(){
     canvasURL = canvas.toDataURL();
     localStorage.setItem("items", canvasURL);
-    //Showing and hiding the SAVED text
     $(deleted_text).hide();
     $(saved_text).fadeIn(1000);
     setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
@@ -176,6 +184,16 @@ function deletingLocalStorage(){
     index = -1;
 }
 
+function clearSavingsWithDel(e){
+    if(e.which == 46){
+        localStorage.clear();
+        $(saved_text).hide();
+        $(deleted_text).fadeIn(1000);
+        setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
+        undo_elements = [];
+        index = -1;
+    }
+}
 function checkingLocalStorage(){
     if(localStorage.getItem("items")){
         $("#new_or_saved_section").css("display","flex");
@@ -237,8 +255,32 @@ document.addEventListener("keypress",clearCanvasWithR);
 yes_btn.addEventListener("click",settingTheCanvasImage)
 window.addEventListener("load",checkingLocalStorage)
 delete_storage.addEventListener("click",deletingLocalStorage);
+document.addEventListener("keydown",clearSavingsWithDel);
 save.addEventListener("click",saveButton);
 
+
+//=================================================================
+//                        JQUERY THINGS
+//=================================================================
 $(".new_or_saved_btns").click(function(){
     $("#new_or_saved_section").fadeOut(500);
+})
+$("#tools").click(function(){
+    $("#downAndUpArrow").removeClass("fa-caret-down")
+    $("#downAndUpArrow").addClass("fa-caret-up")
+    $("#drop_down").show()
+})
+
+$("#tools").mouseleave(function(){
+    $("#downAndUpArrow").removeClass("fa-caret-up")
+    $("#downAndUpArrow").addClass("fa-caret-down")
+    $("#drop_down").hide()
+})
+
+$("#info_btn").mouseenter(function(){
+    $("#info_box").show();
+})
+
+$("#info_btn").mouseleave(function(){
+    $("#info_box").hide()
 })
