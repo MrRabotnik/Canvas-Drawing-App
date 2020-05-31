@@ -53,16 +53,19 @@ canvas.width = W;
 canvas.height = H;
 ctx.beginPath();
 ctx.lineWidth = size;
-if(localStorage.getItem("autoSaveEnabled")){
-    localStorage.setItem("autoSaveEnabled", localStorage.getItem("autoSaveEnabled"));
-}else{
-    localStorage.setItem("autoSaveEnabled", "true");
-}
-autoSaveing()
+//Filling the color options
 for(let i = 0;i < options.length;i++){
     options[i].style.backgroundColor = options[i].value;
 }
-
+if(localStorage.getItem("autoSaveEnabled")){
+    localStorage.setItem("autoSaveEnabled",localStorage.getItem("autoSaveEnabled"));
+    if(localStorage.getItem("autoSaveEnabled") == "notChecked"){
+        autoSave.removeAttribute("checked")
+    }
+}else{
+    localStorage.setItem("autoSaveEnabled","checked");
+}
+console.log(localStorage)
 //=================================================================
 //                        FUNCTIONS
 //=================================================================
@@ -142,9 +145,7 @@ function clearCanvasButton(){
     // ctx.fill()
     eraser.style.backgroundColor = "rgb(245,245,245)";
     selected =  false;
-    if(localStorage.getItem("autoSaveEnabled") == "checked"){
-        savingTimeOut = setTimeout(saveButton,2000)
-    }
+    savingTimeOut = setTimeout(saveButton,2000)
 }
 
 function clearCanvasWithR(e){
@@ -153,9 +154,7 @@ function clearCanvasWithR(e){
         ctx.clearRect(0,0,canvas.width,canvas.height);
         eraser.style.backgroundColor = "rgb(245,245,245)";
         selected =  false;
-        if(localStorage.getItem("autoSaveEnabled") == "checked"){
-            savingTimeOut = setTimeout(saveButton,2000)
-        }
+        savingTimeOut = setTimeout(saveButton,2000)
     }
 }
 
@@ -201,26 +200,22 @@ function settingTheCanvasImage(){
 }   
 
 function deletingLocalStorage(){
-    localStorage.clear();
+    localStorage.removeItem("items");
     $(saved_text).hide();
     $(deleted_text).fadeIn(1000);
     setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
     undo_elements = [];
     index = -1;
-    autoSaveing()
-    autoSave.setAttribute("checked","checked")
 }
 
 function deleteSavingsWithDel(e){
     if(e.key == "Delete"){
-        localStorage.clear();
+        localStorage.removeItem("items");
         $(saved_text).hide();
         $(deleted_text).fadeIn(1000);
         setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
         undo_elements = [];
         index = -1;
-        autoSave.setAttribute("checked","checked")
-        autoSaveing()
     }
 }
 
@@ -239,11 +234,13 @@ function savingCurrentCanvasForUndo(){
     index++;
     if(localStorage.getItem("autoSaveEnabled") == "checked"){
         savingTimeOut = setTimeout(saveButton,2000)
+        console.log(localStorage.getItem("autoSaveEnabled"))
     }
+    console.log(localStorage)
 }
+
 // img.setAttribute("src",undo_elements[index]);
 // img = document.getElementById("canvas_img");
-
 function undo(e){
     if(e.ctrlKey && e.key == "z"){
         e.preventDefault()
@@ -261,11 +258,9 @@ function redo(e){
 
 function autoSaveing(){
     if(localStorage.getItem("autoSaveEnabled") == "checked"){
-        localStorage.setItem("autoSaveEnabled", "false");
-        autoSave.removeAttribute("checked")
+        localStorage.setItem("autoSaveEnabled","notChecked");
     }else{
-        localStorage.setItem("autoSaveEnabled", "checked");
-        autoSave.setAttribute("checked","checked")
+        localStorage.setItem("autoSaveEnabled","checked");
     }
 }
 
@@ -332,9 +327,9 @@ $("#settings_btn").click(function(){
     }
 })
 
-$("#canvas").click(function(){
-    $("#settings_drop_down").hide()
-    settingsShowed = false
-})
+// $("#canvas").click(function(){
+//     $("#settings_drop_down").hide()
+//     settingsShowed = false
+// })
 
 $(".tool_favicon_container").click(applyingTools)
