@@ -65,7 +65,6 @@ if(localStorage.getItem("autoSaveEnabled")){
 }else{
     localStorage.setItem("autoSaveEnabled","checked");
 }
-console.log(localStorage)
 //=================================================================
 //                        FUNCTIONS
 //=================================================================
@@ -145,7 +144,9 @@ function clearCanvasButton(){
     // ctx.fill()
     eraser.style.backgroundColor = "rgb(245,245,245)";
     selected =  false;
-    savingTimeOut = setTimeout(saveButton,2000)
+    if(localStorage.getItem("autoSaveEnabled") == "checked"){
+        savingTimeOut = setTimeout(saveButton,2000)
+    }
 }
 
 function clearCanvasWithR(e){
@@ -154,7 +155,9 @@ function clearCanvasWithR(e){
         ctx.clearRect(0,0,canvas.width,canvas.height);
         eraser.style.backgroundColor = "rgb(245,245,245)";
         selected =  false;
-        savingTimeOut = setTimeout(saveButton,2000)
+        if(localStorage.getItem("autoSaveEnabled") == "checked"){
+            savingTimeOut = setTimeout(saveButton,2000)
+        }
     }
 }
 
@@ -234,9 +237,7 @@ function savingCurrentCanvasForUndo(){
     index++;
     if(localStorage.getItem("autoSaveEnabled") == "checked"){
         savingTimeOut = setTimeout(saveButton,2000)
-        console.log(localStorage.getItem("autoSaveEnabled"))
     }
-    console.log(localStorage)
 }
 
 // img.setAttribute("src",undo_elements[index]);
