@@ -100,7 +100,6 @@ function startDrawing(e) {
     };
     clearTimeout(savingTimeOut)
     Draw(e);
-    
 }
 
 function endDrawing(e) {
@@ -116,10 +115,10 @@ function endDrawing(e) {
 function Draw(e){
     if(!drawing) return;
     if(selected){
-        ctx.strokeStyle = "#fff";
-    }else{
-        ctx.strokeStyle = color;
+        eraserTool(e)
+        return
     }
+    ctx.strokeStyle = color;
     switch(currentToolId){
         case "tool_pencil":
             ctx.lineCap = "round";
@@ -159,6 +158,15 @@ function Draw(e){
     }
 }
 
+function eraserTool(e){
+    ctx.strokeStyle = "#fff";
+    ctx.lineCap = "round";
+    ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
+}
+
 function savingCanvasWithS(e){
     if(e.ctrlKey && e.key == "s"){
         e.preventDefault()
@@ -181,9 +189,6 @@ function saveButton(){
 
 function clearCanvasButton(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
-    // ctx.fillStyle = "white";
-    // ctx.fillRect(0,0,canvas.width,canvas.height);
-    // ctx.fill()
     eraser.style.backgroundColor = "rgb(245,245,245)";
     selected =  false;
     if(localStorage.getItem("autoSaveEnabled") == "checked"){
