@@ -328,9 +328,9 @@ $("#settings_btn").click(function(){
     }
 })
 
-// $("#canvas").click(function(){
-//     $("#settings_drop_down").hide()
-//     settingsShowed = false
-// })
+$("#canvas").click(function(){
+    $("#settings_drop_down").hide()
+    settingsShowed = false
+})
 
 $(".tool_favicon_container").click(applyingTools)

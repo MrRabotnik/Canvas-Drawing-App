@@ -159,6 +159,37 @@ option{
     font-size: 1.45vw;
 }
 
+#drop_down{
+    position: absolute;
+    left: -3%;
+    width: 102.5%;
+    top: 100%;
+    border: 0.1vw solid black;
+    border-radius: 0 0 0.5vw 0.5vw;
+    box-sizing: border-box;
+    background: rgb(245,245,245);
+    /* display: none; */
+}
+
+#drop_down > div{
+    color: black;
+    height: 2vw;
+    display: flex;
+}
+
+.tool_favicon_container{
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.tool_favicon_container:hover{
+    background: #ccc;
+}
+
+
 #small_btns_container{
     position: absolute;
     width: 11%;
@@ -184,35 +215,6 @@ option{
     color: red;
 }
 
-#drop_down{
-    left: -3%;
-    width: 102.5%;
-    top: 100%;
-    border: 0.1vw solid black;
-    border-radius: 0 0 0.5vw 0.5vw;
-    box-sizing: border-box;
-    background: rgb(245,245,245);
-    display: none;
-}
-
-#drop_down > div{
-    color: black;
-    height: 2vw;
-    display: flex;
-}
-
-.tool_favicon_container{
-    width: 50%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-}
-
-.tool_favicon_container:hover{
-    background: #ccc;
-}
-
 #settings_btn{
     margin-right: 0 !important;
     display: flex;
@@ -230,7 +232,7 @@ option{
     background: #111;
     color: white;
     padding: 5% 0;
-    /* display: none; */
+    display: none;
 }
 
 #settings_drop_down > div{
