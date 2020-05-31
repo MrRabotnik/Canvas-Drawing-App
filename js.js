@@ -403,6 +403,8 @@ $("#tools").mouseleave(function(){
 
 $("#info_btn").mouseenter(function(){
     $("#info_box").show();
+    $("#settings_drop_down").hide()
+    settingsShowed = false
 })
 
 $("#info_btn").mouseleave(function(){
