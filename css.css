@@ -6,7 +6,9 @@ a{
     text-decoration: none;
     color: indigo;
 }
-
+#canvas{
+    cursor: url("Images/pencil.png"),auto;
+}
 
 /*=============================================
 //              POP UP WINDOW

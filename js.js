@@ -18,7 +18,7 @@ let right_clicked = false;
 let options = document.getElementsByClassName("color_options");
 let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#8f0000","#0000ff","#b247ff","#4f2907","#f06f0c","#6e4724","#078a09","#0d5bba","#fa05d1"];
 let size = document.getElementById("size").value;
-let canvasURL,savingTimeOut;
+let canvasURL,savingTimeOut,currentToolId;
 let canvasIMG = [];
 let saved_text = document.getElementById("saved");
 let delete_storage = document.getElementById("delete_storage");
@@ -37,7 +37,17 @@ let toolSelection = {
     tool_square_stroke:"far fa-square",
     tool_circle_fill:"fas fa-circle",
     tool_circle_stroke:"far fa-circle",
+    tool_paint_roller:"fas fa-paint-roller",
+    tool_feather:"fas fa-feather-alt",
 };
+let cursorImages = {
+    tool_pencil:"url('Images/pencil.png'),auto;",
+    tool_fill:"url('Images/fill-color.png'),auto;",
+    tool_square_fill:"",
+    tool_square_stroke:"",
+    tool_circle_fill:"",
+    tool_circle_stroke:"",
+}
 let currentToolContainer = document.getElementById("currentToolContainer");
 let CtrlPressed = false;
 let autoSaveValue = document.getElementById("autosave").value;
@@ -110,11 +120,37 @@ function Draw(e){
     }else{
         ctx.strokeStyle = color;
     }
-    ctx.lineCap = "round";
-    ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
+    switch(currentToolId){
+        case "tool_pencil":
+            ctx.lineCap = "round";
+            ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
+            break;
+        case "tool_fill":
+            
+            break;
+        case "tool_square_fill":
+            
+            break;
+        case "tool_square_stroke":
+            
+            break;
+        case "tool_circle_fill":
+            
+            break;
+        case "tool_circle_stroke":
+            
+            break;
+        default:
+            ctx.lineCap = "round";
+            ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
+            break;
+    }
 }
 
 function savingCanvasWithS(e){
@@ -181,9 +217,12 @@ function changeColor(){
 }
 
 function applyingTools(){
-    let currentToolClass = this.id
+    currentToolId = this.id
     currentToolContainer.innerHTML = ""
-    currentToolContainer.innerHTML = `<i class="${toolSelection[currentToolClass]}"></i>`;
+    currentToolContainer.innerHTML = `<i class="${toolSelection[currentToolId]}"></i>`;
+    $("#canvas").css({
+        cursor: cursorImages[currentToolId],
+    })
 }
 
 function selectingEraser(){
@@ -195,8 +234,6 @@ function selectingEraser(){
         selected =  false
     }
 };
-
-
 
 function settingTheCanvasImage(){
     ctx.drawImage(img,0,0,canvas.width,canvas.height);
