@@ -330,6 +330,7 @@ function undo(e){
         }else if(index > 0){
             index--
             img.setAttribute("src",undo_elements[index]);  
+            
             ctx.drawImage(img,0,0,canvas.width,canvas.height)
         }
         console.log(index)
@@ -340,10 +341,10 @@ function redo(e){
     if(e.ctrlKey && e.key == "y"){
         if(index < undo_elements.length - 1){
             index++
-            console.log(index)
             img.setAttribute("src",undo_elements[index]);  
             ctx.drawImage(img,0,0,canvas.width,canvas.height)
         }
+        console.log(undo_elements)
     }
 }
 

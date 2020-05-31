@@ -264,10 +264,9 @@ label{
 #info_box{
     position: absolute;
     z-index: 3;
-    left: 50%;
-    top: 50%;
+    right: 0%;
+    top: 7%;
     width: 20%;
-    transform: translate(-50%,-50%);
     background: rgba(50,50,50,0.9);
     color: white;
     border: 0.1vw dashed white;
