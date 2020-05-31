@@ -115,14 +115,37 @@
             <img src="Images/eraser.png" alt="eraser" width="100%">
         </div>
 
-        <button id="delete_storage" >
-            <i class="fas fa-trash"></i>
-            Savings
-        </button>
 
-        <button id="info_btn">
-            <i class="fas fa-info-circle"></i>
-        </button>
+
+        <div id="small_btns_container">
+            <button id="delete_storage" title="Click to DELETE your savings">
+                <i class="fas fa-trash"></i>
+            </button>
+    
+            <button id="settings_btn" title="Settings">
+                <!-- <i class="fas fa-sliders-h"></i> -->
+                <i class="fas fa-cog"></i>
+            </button>
+
+            <div id="settings_drop_down">
+                <div>
+                    <label for="autosave">AutoSave</label><input type="checkbox" name="autosave" id="autosave" checked>
+                </div>
+    
+                <!-- <div>
+                    <label for="autosave">KlKl</label><input type="checkbox" name="autosave" id="">
+                </div>
+    
+                <div>
+                    <label for="autosave">ASasd</label><input type="checkbox" name="autosave" id="">
+                </div> -->
+            </div>
+    
+            <button id="info_btn" title="Information">
+                <i class="fas fa-info-circle"></i>
+            </button>
+    
+        </div>
 
         <div id="info_box">
             <div>

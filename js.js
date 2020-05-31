@@ -18,7 +18,7 @@ let right_clicked = false;
 let options = document.getElementsByClassName("color_options");
 let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#8f0000","#0000ff","#b247ff","#4f2907","#f06f0c","#6e4724","#078a09","#0d5bba","#fa05d1"];
 let size = document.getElementById("size").value;
-let canvasURL;
+let canvasURL,savingTimeOut;
 let canvasIMG = [];
 let saved_text = document.getElementById("saved");
 let delete_storage = document.getElementById("delete_storage");
@@ -37,9 +37,14 @@ let toolSelection = {
     tool_square_stroke:"far fa-square",
     tool_circle_fill:"fas fa-circle",
     tool_circle_stroke:"far fa-circle",
-}
-let currentToolContainer = document.getElementById("currentToolContainer")
-let CtrlPressed = false
+};
+let currentToolContainer = document.getElementById("currentToolContainer");
+let CtrlPressed = false;
+let autoSaveValue = document.getElementById("autosave").value;
+let autoSave = document.getElementById("autosave");
+let settingsBtn = document.getElementById("settings_btn")
+let settings_drop_down = document.getElementById("settings_drop_down")
+let settingsShowed = false
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
@@ -48,6 +53,12 @@ canvas.width = W;
 canvas.height = H;
 ctx.beginPath();
 ctx.lineWidth = size;
+if(localStorage.getItem("autoSaveEnabled")){
+    localStorage.setItem("autoSaveEnabled", localStorage.getItem("autoSaveEnabled"));
+}else{
+    localStorage.setItem("autoSaveEnabled", "true");
+}
+autoSaveing()
 for(let i = 0;i < options.length;i++){
     options[i].style.backgroundColor = options[i].value;
 }
@@ -55,12 +66,12 @@ for(let i = 0;i < options.length;i++){
 //=================================================================
 //                        FUNCTIONS
 //=================================================================
-$(window).resize(function(){
-    W = window.innerWidth - 3;
-    H = window.innerHeight - tool_container_height;
-    canvas.width = W;
-    canvas.height = H;
-})
+// $(window).resize(function(){
+//     W = window.innerWidth - 3;
+//     H = window.innerHeight - tool_container_height;
+//     canvas.width = W;
+//     canvas.height = H;
+// })
 
 function movingTool(e){
     // ctx.beginPath()
@@ -75,7 +86,9 @@ function startDrawing(e) {
         selected =  true;
         e.preventDefault();
     };
+    clearTimeout(savingTimeOut)
     Draw(e);
+    
 }
 
 function endDrawing(e) {
@@ -102,7 +115,7 @@ function Draw(e){
     ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
 }
 
-function savingCanvas(e){
+function savingCanvasWithS(e){
     if(e.ctrlKey && e.key == "s"){
         e.preventDefault()
         canvasURL = canvas.toDataURL();
@@ -122,22 +135,28 @@ function saveButton(){
     setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
 }
 
-function clearCanvas(){
+function clearCanvasButton(){
     ctx.clearRect(0,0,canvas.width,canvas.height);
     // ctx.fillStyle = "white";
     // ctx.fillRect(0,0,canvas.width,canvas.height);
     // ctx.fill()
     eraser.style.backgroundColor = "rgb(245,245,245)";
     selected =  false;
+    if(localStorage.getItem("autoSaveEnabled") == "checked"){
+        savingTimeOut = setTimeout(saveButton,2000)
+    }
 }
 
 function clearCanvasWithR(e){
-        if(e.ctrlKey && e.key == "r"){
-            e.preventDefault()
-            ctx.clearRect(0,0,canvas.width,canvas.height);
-            eraser.style.backgroundColor = "rgb(245,245,245)";
-            selected =  false;
+    if(e.ctrlKey && e.key == "r"){
+        e.preventDefault()
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        eraser.style.backgroundColor = "rgb(245,245,245)";
+        selected =  false;
+        if(localStorage.getItem("autoSaveEnabled") == "checked"){
+            savingTimeOut = setTimeout(saveButton,2000)
         }
+    }
 }
 
 function changeSize(){
@@ -188,9 +207,11 @@ function deletingLocalStorage(){
     setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
     undo_elements = [];
     index = -1;
+    autoSaveing()
+    autoSave.setAttribute("checked","checked")
 }
 
-function clearSavingsWithDel(e){
+function deleteSavingsWithDel(e){
     if(e.key == "Delete"){
         localStorage.clear();
         $(saved_text).hide();
@@ -198,6 +219,8 @@ function clearSavingsWithDel(e){
         setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
         undo_elements = [];
         index = -1;
+        autoSave.setAttribute("checked","checked")
+        autoSaveing()
     }
 }
 
@@ -213,18 +236,18 @@ function checkingLocalStorage(){
 function savingCurrentCanvasForUndo(){
     let undo_elements_URL = canvas.toDataURL();
     undo_elements.push(undo_elements_URL);
-    console.log(undo_elements);
     index++;
-    setTimeout(saveButton,2000)
+    if(localStorage.getItem("autoSaveEnabled") == "checked"){
+        savingTimeOut = setTimeout(saveButton,2000)
+    }
 }
-
 // img.setAttribute("src",undo_elements[index]);
 // img = document.getElementById("canvas_img");
 
 function undo(e){
     if(e.ctrlKey && e.key == "z"){
         e.preventDefault()
-
+        console.log(undo_elements);
     }
 }
 
@@ -236,30 +259,41 @@ function redo(e){
     }
 }
 
+function autoSaveing(){
+    if(localStorage.getItem("autoSaveEnabled") == "checked"){
+        localStorage.setItem("autoSaveEnabled", "false");
+        autoSave.removeAttribute("checked")
+    }else{
+        localStorage.setItem("autoSaveEnabled", "checked");
+        autoSave.setAttribute("checked","checked")
+    }
+}
+
 //=================================================================
 //                        CALLING THE FUNCTIONS
 //=================================================================
-btn.addEventListener("click",clearCanvas);
+canvas.addEventListener("mousedown",startDrawing);
+canvas.addEventListener("mousemove",Draw);
+document.addEventListener("mouseup",endDrawing);
+// save.addEventListener("click",saveButton);
+document.addEventListener("keydown",savingCanvasWithS);
+btn.addEventListener("click",clearCanvasButton);
+document.addEventListener("keydown",clearCanvasWithR);
 sizeSelect.addEventListener("change",changeSize);
 colorSelect.addEventListener("change",changeColor);
 colorSelect.addEventListener("mouseover",() => {colorSelect.style.boxShadow = `0 0 1vw ${color}`;})
 colorSelect.addEventListener("mouseout",() => {colorSelect.style.boxShadow = `none`;})
 eraser.addEventListener("click",selectingEraser);
-canvas.addEventListener("mousedown",startDrawing);
-document.addEventListener("mouseup",endDrawing);
 canvas.addEventListener("mouseleave",() => {ctx.beginPath()});
-canvas.addEventListener("mousemove",Draw);
-canvas.addEventListener("mousemove",movingTool);
+// canvas.addEventListener("mousemove",movingTool);
 canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
-document.addEventListener("keydown",savingCanvas);
 document.addEventListener("keydown",undo);
 document.addEventListener("keydown",redo);
-document.addEventListener("keydown",clearCanvasWithR);
 window.addEventListener("load",checkingLocalStorage)
 yes_btn.addEventListener("click",settingTheCanvasImage)
 delete_storage.addEventListener("click",deletingLocalStorage);
-document.addEventListener("keydown",clearSavingsWithDel);
-// save.addEventListener("click",saveButton);
+document.addEventListener("keydown",deleteSavingsWithDel);
+autoSave.addEventListener("change",autoSaveing);
 
 
 //=================================================================
@@ -286,6 +320,21 @@ $("#info_btn").mouseenter(function(){
 
 $("#info_btn").mouseleave(function(){
     $("#info_box").hide()
+})
+
+$("#settings_btn").click(function(){
+    if(settingsShowed){
+        $("#settings_drop_down").hide()
+        settingsShowed = false
+    }else{
+        $("#settings_drop_down").show();
+        settingsShowed = true
+    }
+})
+
+$("#canvas").click(function(){
+    $("#settings_drop_down").hide()
+    settingsShowed = false
 })
 
 $(".tool_favicon_container").click(applyingTools)

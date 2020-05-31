@@ -62,10 +62,6 @@ a{
     display: none;
 }
 
-#save{
-    cursor: not-allowed !important;
-}
-
 #deleted{
     color: red;
     font-size: 1.8vw;
@@ -106,6 +102,10 @@ button:hover, #size:hover,#shapes:hover,#tools:hover{
     background: rgb(245,245,245);
 }
 
+#save{
+    cursor: not-allowed !important;
+}
+
 #eraser{
     margin: 0 1%;
     width: 3%;
@@ -116,26 +116,11 @@ button:hover, #size:hover,#shapes:hover,#tools:hover{
     cursor: pointer;
 }
 
-#shapes{
-    width: 8%;
-}
-
 #tools_container button,select,div{
     margin:0 2%;
     padding: 0.5% 1%;
     font-size: 1.2vw;
     outline: none;
-}
-
-#color{
-    width: 10%;
-    border-width: 0.2vw;
-    border-radius: 0.5vw;
-    background: black;
-    color: white;
-    transition: 0.5s;
-    outline: none;
-    cursor: pointer;
 }
 
 option{
@@ -144,22 +129,20 @@ option{
     transition: 1s;
 }
 
+#color{
+    width: 10%;
+    border-width: 0.2vw;
+    border-radius: 0.5vw;
+    border: 0.1vw solid #111;
+    background: black;
+    color: white;
+    transition: 0.5s;
+    outline: none;
+    cursor: pointer;
+}
+
 #color option{
     color: transparent;
-}
-
-#delete_storage{
-    color: white;
-    width: 9%;
-    padding: 1% 1%;
-    display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    margin: 1%;
-}
-
-#delete_storage:hover{
-    color: red;
 }
 
 #canvas_img{
@@ -176,8 +159,32 @@ option{
     font-size: 1.45vw;
 }
 
-#drop_down{
+#small_btns_container{
     position: absolute;
+    width: 11%;
+    height: 2.5vw;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    padding: 0;
+}
+
+#delete_storage{
+    color: white;
+    width: 25%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin: 1%;
+}
+
+#delete_storage:hover{
+    color: red;
+}
+
+#drop_down{
     left: -3%;
     width: 102.5%;
     top: 100%;
@@ -206,14 +213,44 @@ option{
     background: #ccc;
 }
 
-#info_btn{
-    position: absolute;
-    right: 1%;
+#settings_btn{
     margin-right: 0 !important;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 3%;
+    width: 25%;
+    height: 100%;
+}
+
+#settings_drop_down{
+    position: absolute;
+    top: 120%;
+    right: -2%;
+    width: 100%;
+    background: #111;
+    color: white;
+    padding: 5% 0;
+    /* display: none; */
+}
+
+#settings_drop_down > div{
+    display: flex;
+    height: 2vw;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+label{
+    cursor: pointer;
+}
+
+#info_btn{
+    margin-right: 0 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25%;
+    height: 100%;
 }
 
 #info_box{
