@@ -176,6 +176,8 @@ function Draw(e){
             ctx.shadowBlur = 0;   
             break;
         default:   
+            ctx.shadowColor = "none";
+            ctx.shadowBlur = 0; 
             ctx.lineCap = "round";
             ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
             ctx.stroke();
@@ -186,6 +188,8 @@ function Draw(e){
 }
 
 function eraserTool(e){
+    ctx.shadowColor = "none";
+    ctx.shadowBlur = 0;  
     ctx.strokeStyle = "#fff";
     ctx.lineCap = "round";
     ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
