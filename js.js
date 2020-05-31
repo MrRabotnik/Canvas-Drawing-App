@@ -39,6 +39,7 @@ let toolSelection = {
     tool_circle_stroke:"far fa-circle",
     tool_paint_roller:"fas fa-paint-roller",
     tool_feather:"fas fa-feather-alt",
+    tool_brush:"fas fa-paint-brush",
 };
 let cursorImages = {
     tool_pencil:"url('Images/pencil.png'),auto;",
@@ -110,17 +111,20 @@ function endDrawing(e) {
         eraser.style.backgroundColor = "rgb(245,245,245)";
     }
     ctx.beginPath();
+    console.log(undo_elements,index);
 }
 
 function Draw(e){
     if(!drawing) return;
     if(selected){
-        eraserTool(e)
-        return
+        eraserTool(e);
+        return;
     }
     ctx.strokeStyle = color;
     switch(currentToolId){
         case "tool_pencil":
+            ctx.shadowColor = "none";
+            ctx.shadowBlur = 0;  
             ctx.lineCap = "round";
             ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
             ctx.stroke();
@@ -128,27 +132,46 @@ function Draw(e){
             ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
             break;
         case "tool_fill":
+            ctx.shadowColor = "none";
+            ctx.shadowBlur = 0;  
             // I DONT KNOW HOW LOL
             break;
         case "tool_paint_roller":
+            ctx.shadowColor = "none";
+            ctx.shadowBlur = 0;  
         
             break;
         case "tool_feather":
+            ctx.shadowColor = "none";
+            ctx.shadowBlur = 0;  
         
             break;
+        case "tool_brush":
+            ctx.shadowColor = color;
+            ctx.shadowBlur = size;    
+            ctx.lineCap = "round";
+            ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
+            break;
         case "tool_square_fill":
-            
+            ctx.shadowColor = "none";
+            ctx.shadowBlur = 0;   
             break;
         case "tool_square_stroke":
-            
+            ctx.shadowColor = "none";
+            ctx.shadowBlur = 0;   
             break;
         case "tool_circle_fill":
-            
+            ctx.shadowColor = "none";
+            ctx.shadowBlur = 0;   
             break;
         case "tool_circle_stroke":
-            
+            ctx.shadowColor = "none";
+            ctx.shadowBlur = 0;   
             break;
-        default:
+        default:   
             ctx.lineCap = "round";
             ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
             ctx.stroke();
@@ -288,20 +311,30 @@ function savingCurrentCanvasForUndo(){
     }
 }
 
-// img.setAttribute("src",undo_elements[index]);
-// img = document.getElementById("canvas_img");
 function undo(e){
     if(e.ctrlKey && e.key == "z"){
         e.preventDefault()
-        console.log(undo_elements);
+        undo_elements.pop()
+        if(index == 0){
+            ctx.clearRect(0,0,canvas.width,canvas.height)
+            ctx.drawImage(img,0,0,canvas.width,canvas.height)
+            index = -1;
+            console.log("Array empty")
+        }else if(index > 0){
+            index--
+            img.setAttribute("src",undo_elements[index]);  
+            console.log(img)
+            ctx.clearRect(0,0,canvas.width,canvas.height)
+            console.log(ctx)
+            ctx.drawImage(img,0,0,canvas.width,canvas.height)
+        }
+        console.log(undo_elements,index);
     }
 }
 
 function redo(e){
     if(e.ctrlKey && e.key == "y"){
-        if(index == undo_elements.length){
-            index++;
-        }
+        console.log("Redo")
     }
 }
 
