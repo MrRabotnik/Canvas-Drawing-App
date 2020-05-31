@@ -61,6 +61,11 @@ a{
     left: 1%;
     display: none;
 }
+
+#save{
+    cursor: not-allowed !important;
+}
+
 #deleted{
     color: red;
     font-size: 1.8vw;

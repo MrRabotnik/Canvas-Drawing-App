@@ -102,30 +102,24 @@ function Draw(e){
     ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
 }
 
-function pressedCtrl(e){
-    e.preventDefault()
-    if(e.which == 17){
-        CtrlPressed = true
-    }
-}
-
-function relisedCtrl(e){
-    if(e.which == 17){
-        CtrlPressed = false
-    }
-}
-
 function savingCanvas(e){
-    if(CtrlPressed){
-        if(e.which == 83){
-            canvasURL = canvas.toDataURL();
-            localStorage.setItem("items", canvasURL);
-            //Showing and hiding the SAVED text
-            $(deleted_text).hide();
-            $(saved_text).fadeIn(1000);
-            setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
-        }
+    if(e.ctrlKey && e.key == "s"){
+        e.preventDefault()
+        canvasURL = canvas.toDataURL();
+        localStorage.setItem("items", canvasURL);
+        //Showing and hiding the SAVED text
+        $(deleted_text).hide();
+        $(saved_text).fadeIn(1000);
+        setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
     }
+}
+
+function saveButton(){
+    canvasURL = canvas.toDataURL();
+    localStorage.setItem("items", canvasURL);
+    $(deleted_text).hide();
+    $(saved_text).fadeIn(1000);
+    setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
 }
 
 function clearCanvas(){
@@ -138,11 +132,12 @@ function clearCanvas(){
 }
 
 function clearCanvasWithR(e){
-    if(e.which == 114){
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        eraser.style.backgroundColor = "rgb(245,245,245)";
-        selected =  false;
-    }
+        if(e.ctrlKey && e.key == "r"){
+            e.preventDefault()
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            eraser.style.backgroundColor = "rgb(245,245,245)";
+            selected =  false;
+        }
 }
 
 function changeSize(){
@@ -180,19 +175,10 @@ function selectingEraser(){
     }
 };
 
-function saveButton(){
-    canvasURL = canvas.toDataURL();
-    localStorage.setItem("items", canvasURL);
-    $(deleted_text).hide();
-    $(saved_text).fadeIn(1000);
-    setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
-}
+
 
 function settingTheCanvasImage(){
-    // ctx.fillStyle = "white";
-    // ctx.fillRect(0,0,canvas.width,canvas.height);
     ctx.drawImage(img,0,0,canvas.width,canvas.height);
-    console.log(img)
 }   
 
 function deletingLocalStorage(){
@@ -205,15 +191,13 @@ function deletingLocalStorage(){
 }
 
 function clearSavingsWithDel(e){
-    if(CtrlPressed){
-        if(e.which == 46){
-            localStorage.clear();
-            $(saved_text).hide();
-            $(deleted_text).fadeIn(1000);
-            setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
-            undo_elements = [];
-            index = -1;
-        }
+    if(e.key == "Delete"){
+        localStorage.clear();
+        $(saved_text).hide();
+        $(deleted_text).fadeIn(1000);
+        setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
+        undo_elements = [];
+        index = -1;
     }
 }
 
@@ -231,34 +215,23 @@ function savingCurrentCanvasForUndo(){
     undo_elements.push(undo_elements_URL);
     console.log(undo_elements);
     index++;
+    setTimeout(saveButton,2000)
 }
 
+// img.setAttribute("src",undo_elements[index]);
+// img = document.getElementById("canvas_img");
+
 function undo(e){
-    if(CtrlPressed){
-        if(e.which == 122){
-            let img = document.getElementById("canvas_img");
-            if(undo_elements.length !== 1){
-                if(index > 0){
-                    index--;
-                }
-                img.setAttribute("src",undo_elements[index]);
-                ctx.drawImage(img,0,0,canvas.width,canvas.height);
-                console.log(undo_elements);
-            }else{
-                img.setAttribute("src","");
-                ctx.drawImage(img,0,0,canvas.width,canvas.height);
-                console.log("Array is empty");
-            }
-        }
+    if(e.ctrlKey && e.key == "z"){
+        e.preventDefault()
+
     }
 }
 
 function redo(e){
-    if(CtrlPressed){
-        if(e.which == 121){
-            if(index == undo_elements.length){
-                index++;
-            }
+    if(e.ctrlKey && e.key == "y"){
+        if(index == undo_elements.length){
+            index++;
         }
     }
 }
@@ -279,16 +252,14 @@ canvas.addEventListener("mousemove",Draw);
 canvas.addEventListener("mousemove",movingTool);
 canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
 document.addEventListener("keydown",savingCanvas);
-document.addEventListener("keypress",undo);
-document.addEventListener("keypress",redo);
-document.addEventListener("keypress",clearCanvasWithR);
-document.addEventListener("keydown",pressedCtrl)
-document.addEventListener("keyup",relisedCtrl)
+document.addEventListener("keydown",undo);
+document.addEventListener("keydown",redo);
+document.addEventListener("keydown",clearCanvasWithR);
 window.addEventListener("load",checkingLocalStorage)
 yes_btn.addEventListener("click",settingTheCanvasImage)
 delete_storage.addEventListener("click",deletingLocalStorage);
 document.addEventListener("keydown",clearSavingsWithDel);
-save.addEventListener("click",saveButton);
+// save.addEventListener("click",saveButton);
 
 
 //=================================================================
