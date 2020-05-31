@@ -105,7 +105,11 @@ button:hover, #size:hover,#shapes:hover,#tools:hover{
 }
 
 #save{
+    width: 3%;
     cursor: not-allowed !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #eraser{

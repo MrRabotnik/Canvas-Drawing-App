@@ -129,7 +129,13 @@ function Draw(e){
             ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
             break;
         case "tool_fill":
-            
+            // I DONT KNOW HOW LOL
+            break;
+        case "tool_paint_roller":
+        
+            break;
+        case "tool_feather":
+        
             break;
         case "tool_square_fill":
             
