@@ -168,7 +168,7 @@ option{
     border-radius: 0 0 0.5vw 0.5vw;
     box-sizing: border-box;
     background: rgb(245,245,245);
-    /* display: none; */
+    display: none;
 }
 
 #drop_down > div{
