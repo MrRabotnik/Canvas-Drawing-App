@@ -40,6 +40,7 @@ let toolSelection = {
     tool_paint_roller:"fas fa-paint-roller",
     tool_feather:"fas fa-feather-alt",
     tool_brush:"fas fa-paint-brush",
+    tool_text:"fas fa-keyboard",
 };
 let cursorImages = {
     tool_pencil:"url('Images/pencil.png'),auto;",
@@ -48,6 +49,10 @@ let cursorImages = {
     tool_square_stroke:"",
     tool_circle_fill:"",
     tool_circle_stroke:"",
+    tool_paint_roller:"",
+    tool_feather:"",
+    tool_brush:"",
+    tool_text:"",
 }
 let currentToolContainer = document.getElementById("currentToolContainer");
 let CtrlPressed = false;
@@ -111,7 +116,6 @@ function endDrawing(e) {
         eraser.style.backgroundColor = "rgb(245,245,245)";
     }
     ctx.beginPath();
-    console.log(undo_elements,index);
 }
 
 function Draw(e){
@@ -314,27 +318,32 @@ function savingCurrentCanvasForUndo(){
 function undo(e){
     if(e.ctrlKey && e.key == "z"){
         e.preventDefault()
-        undo_elements.pop()
         if(index == 0){
-            ctx.clearRect(0,0,canvas.width,canvas.height)
+            ctx.clearRect(0,0,canvas.width,canvas.height);
+            if(localStorage.getItem("items")){
+                img.setAttribute("src",localStorage.getItem("items"));  
+            }else{
+                img.setAttribute("src","");  
+            }
             ctx.drawImage(img,0,0,canvas.width,canvas.height)
             index = -1;
-            console.log("Array empty")
         }else if(index > 0){
             index--
             img.setAttribute("src",undo_elements[index]);  
-            console.log(img)
-            ctx.clearRect(0,0,canvas.width,canvas.height)
-            console.log(ctx)
             ctx.drawImage(img,0,0,canvas.width,canvas.height)
         }
-        console.log(undo_elements,index);
+        console.log(index)
     }
 }
 
 function redo(e){
     if(e.ctrlKey && e.key == "y"){
-        console.log("Redo")
+        if(index < undo_elements.length - 1){
+            index++
+            console.log(index)
+            img.setAttribute("src",undo_elements[index]);  
+            ctx.drawImage(img,0,0,canvas.width,canvas.height)
+        }
     }
 }
 
