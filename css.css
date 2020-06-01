@@ -274,3 +274,36 @@ label{
     font-size: 1.5vw;
     display: none;
 }
+/* --------------------------------------------------------------------- */
+
+.shape_box{
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    left: 0;
+    top: 0;
+    background: rgba(0,0,255,0.3);
+    z-index: 5;
+    display: none;   
+    box-sizing: border-box;
+}
+#square_fill_shape_box_before_drawing{
+    border: 0.2vw dashed blue;
+    width: 100px;
+    height: 100px;
+}
+
+#square_stroke_shape_box_before_drawing{
+    border: 0.2vw dashed blue;
+    background: transparent;
+}
+
+#circle_fill_shape_box_before_drawing{
+    border-radius: 50%;
+}
+
+#circle_stroke_shape_box_before_drawing{
+    border: 0.2vw dashed blue;
+    background: transparent;
+    border-radius: 50%;
+}

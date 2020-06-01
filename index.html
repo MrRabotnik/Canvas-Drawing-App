@@ -43,7 +43,10 @@
             <option value="5" selected>5px</option>
             <option value="10">10px</option>
             <option value="20">20px</option>
+            <option value="30">30px</option>
+            <option value="40">40px</option>
             <option value="50">50px</option>
+            <option value="75">75px</option>
             <option value="100">100px</option>
             <option value="10000">Fill</option>
         </select>
@@ -110,21 +113,21 @@
                 </div>
 
                 <div>
-                    <div class="tool_favicon_container" id="tool_square_fill">
+                    <div class="tool_favicon_container" id="tool_square_fill" data-class="shapes">
                         <i class="fas fa-square"></i>
                     </div>
 
-                    <div class="tool_favicon_container" id="tool_square_stroke">
+                    <div class="tool_favicon_container" id="tool_square_stroke" data-class="shapes">
                         <i class="far fa-square"></i>
                     </div>
                 </div>
 
                 <div>
-                    <div class="tool_favicon_container" id="tool_circle_fill">
+                    <div class="tool_favicon_container" id="tool_circle_fill" data-class="shapes">
                         <i class="fas fa-circle"></i>
                     </div>
 
-                    <div class="tool_favicon_container" id="tool_circle_stroke">
+                    <div class="tool_favicon_container" id="tool_circle_stroke" data-class="shapes">
                         <i class="far fa-circle"></i>
                     </div>
                 </div>
@@ -206,11 +209,15 @@
             </div><br/>
         </div>
     </div>
-    
+
     <canvas id="canvas" oncontextmenu="return false">
         <img id="canvas_img" src="">
     </canvas>
 
+    <div class="shape_box"></div>
+    <div class="shape_box"></div>
+    <div class="shape_box"></div>
+    <div class="shape_box"></div>
 
     <script src="https://code.jquery.com/jquery-3.5.1.js" integrity="sha256-QWo7LDvxbWT2tbbQ97B53yJnYU3WhH/C8ycbRAkjPDc=" crossorigin="anonymous"></script>
     <script src="js.js"></script>

@@ -4,7 +4,7 @@
 let canvas = document.querySelector("#canvas");
 let ctx = canvas.getContext("2d");
 let btn = document.getElementById("btn");
-let tool_container_height = document.getElementById("tools_container").offsetHeight + 4
+let tool_container_height = document.getElementById("tools_container").offsetHeight
 let W = window.innerWidth - 3;
 let H = window.innerHeight - tool_container_height;
 let YFromMouse = 40;
@@ -18,7 +18,7 @@ let right_clicked = false;
 let options = document.getElementsByClassName("color_options");
 let colorsThatNeedWhite = ["#000","#a1a1a1","#ff0000","#8f0000","#0000ff","#b247ff","#4f2907","#f06f0c","#6e4724","#078a09","#0d5bba","#fa05d1"];
 let size = document.getElementById("size").value;
-let canvasURL,savingTimeOut,currentToolId;
+let canvasURL,savingTimeOut,currentToolId,elem;
 let canvasIMG = [];
 let saved_text = document.getElementById("saved");
 let delete_storage = document.getElementById("delete_storage");
@@ -63,12 +63,19 @@ let autoSave = document.getElementById("autosave");
 let settingsBtn = document.getElementById("settings_btn")
 let settings_drop_down = document.getElementById("settings_drop_down")
 let settingsShowed = false
+let topMouseX,topMouseY,bottomMouseX,bottomMouseY,customAttributeValue;
+let shape_boxes_arr = document.getElementsByClassName("shape_box")
+let square_fill = document.getElementsByClassName("shape_box")[0]
+let square_stroke = document.getElementsByClassName("shape_box")[1]
+let circle_fill = document.getElementsByClassName("shape_box")[2]
+let circle_stroke = document.getElementsByClassName("shape_box")[3]
+
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
 //=================================================================
 canvas.width = W;
-canvas.height = H;
+canvas.height = H - 4;
 ctx.beginPath();
 ctx.lineWidth = size;
 //Filling the color options
@@ -83,6 +90,11 @@ if(localStorage.getItem("autoSaveEnabled")){
 }else{
     localStorage.setItem("autoSaveEnabled","checked");
 }
+square_fill.id = "square_fill_shape_box_before_drawing"
+square_stroke.id = "square_stroke_shape_box_before_drawing"
+circle_fill.id = "circle_fill_shape_box_before_drawing"
+circle_stroke.id = "circle_stroke_shape_box_before_drawing"
+
 //=================================================================
 //                        FUNCTIONS
 //=================================================================
@@ -100,6 +112,10 @@ function startDrawing(e) {
         selected =  true;
         e.preventDefault();
     };
+    if(customAttributeValue == "shapes"){
+        topMouseX = e.clientX
+        topMouseY = e.clientY
+    }
     clearTimeout(savingTimeOut)
     Draw(e);
 }
@@ -107,10 +123,17 @@ function startDrawing(e) {
 function endDrawing(e) {
     drawing = false;
     if(e.which == 3){
-        e.preventDefault()
         selected =  false
         eraser.style.backgroundColor = "rgb(245,245,245)";
+
     }
+
+    if(customAttributeValue == "shapes"){
+        bottomMouseX = e.clientX
+        bottomMouseY = e.clientY
+        drawingDecidedShape()
+    }   
+
     ctx.beginPath();
 }
 
@@ -125,10 +148,10 @@ function Draw(e){
         case "tool_pencil":
             nulifyingEverythingWithTools();  
             ctx.lineCap = "round";
-            ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
+            ctx.lineTo(e.clientX,e.clientY - tool_container_height + 0.5);
             ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
+            ctx.moveTo(e.clientX,e.clientY - tool_container_height + 0.5);
             break;
         case "tool_fill":
             nulifyingEverythingWithTools();  
@@ -137,8 +160,8 @@ function Draw(e){
             nulifyingEverythingWithTools();  
             ctx.lineWidth = 10;
             ctx.lineCap = "butt";
-            ctx.moveTo(e.clientX - size,e.clientY - tool_container_height + 4)
-            ctx.lineTo(Number(e.clientX) + Number(size),e.clientY - tool_container_height + 4 )
+            ctx.moveTo(e.clientX - size,e.clientY - tool_container_height + 0.5)
+            ctx.lineTo(Number(e.clientX) + Number(size),e.clientY - tool_container_height + 0.5 )
             ctx.stroke()
             ctx.beginPath()
             break;
@@ -148,7 +171,7 @@ function Draw(e){
             ctx.lineCap = "butt";
             size = document.getElementById("size").value;
             ctx.moveTo(e.clientX - size,e.clientY - tool_container_height + size/2)
-            ctx.lineTo(Number(e.clientX) + Number(size),e.clientY - tool_container_height + 4 - 20)
+            ctx.lineTo(Number(e.clientX) + Number(size),e.clientY - tool_container_height + 0.5 - 20)
             ctx.stroke()
             ctx.beginPath()
             break;
@@ -156,33 +179,37 @@ function Draw(e){
             ctx.shadowColor = color;
             ctx.shadowBlur = size;    
             ctx.lineCap = "round";
-            ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
+            ctx.lineTo(e.clientX,e.clientY - tool_container_height + 0.5);
             ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
+            ctx.moveTo(e.clientX,e.clientY - tool_container_height + 0.5);
             break;
         case "tool_text":
             nulifyingEverythingWithTools();   
             break;
         case "tool_square_fill":
-            nulifyingEverythingWithTools();   
+            nulifyingEverythingWithTools(); 
+            showingBoxBeforeDrawingShape(e,"square_fill_shape_box_before_drawing")
             break;
         case "tool_square_stroke":
-            nulifyingEverythingWithTools();   
+            nulifyingEverythingWithTools(); 
+            showingBoxBeforeDrawingShape(e,"square_stroke_shape_box_before_drawing")
             break;
         case "tool_circle_fill":
-            nulifyingEverythingWithTools();   
+            nulifyingEverythingWithTools(); 
+            showingBoxBeforeDrawingShape(e,"circle_fill_shape_box_before_drawing")
             break;
         case "tool_circle_stroke":
-            nulifyingEverythingWithTools();   
+            nulifyingEverythingWithTools(); 
+            showingBoxBeforeDrawingShape(e,"circle_stroke_shape_box_before_drawing")
             break;
         default:   
             nulifyingEverythingWithTools(); 
             ctx.lineCap = "round";
-            ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
+            ctx.lineTo(e.clientX,e.clientY - tool_container_height + 0.5);
             ctx.stroke();
             ctx.beginPath();
-            ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
+            ctx.moveTo(e.clientX,e.clientY - tool_container_height + 0.5);
             break;
     }
 }
@@ -264,6 +291,7 @@ function changeColor(){
 
 function applyingTools(){
     currentToolId = this.id
+    customAttributeValue = this.getAttribute("data-class")
     currentToolContainer.innerHTML = ""
     currentToolContainer.innerHTML = `<i class="${toolSelection[currentToolId]}"></i>`;
     $("#canvas").css({
@@ -271,6 +299,28 @@ function applyingTools(){
     })
     changeSize();
     changeColor();
+}
+
+function showingBoxBeforeDrawingShape(e,currentBox){
+    elem = document.getElementById(currentBox)
+    elem.style.display = "block";
+    elem.style.left = `${topMouseX}px`;
+    elem.style.top = `${topMouseY}px`;
+    elem.style.width = `${e.clientX - topMouseX}px`;
+    elem.style.height = `${e.clientY - topMouseY}px`;
+}
+
+function drawingDecidedShape(){
+    for(let i = 0; i < shape_boxes_arr.length;i++){
+        shape_boxes_arr[i].style.display = "none";
+    }
+    let startX = topMouseX
+    let startY = topMouseY - tool_container_height
+    let endX = bottomMouseX - topMouseX
+    let endY = bottomMouseY - tool_container_height - topMouseY + 37
+    ctx.fillStyle = color;
+    ctx.fillRect(startX,startY,endX,endY)
+    ctx.fill()
 }
 
 function selectingEraser(){
@@ -365,6 +415,8 @@ function autoSaveing(){
         localStorage.setItem("autoSaveEnabled","checked");
     }
 }
+
+
 
 //=================================================================
 //                        CALLING THE FUNCTIONS
