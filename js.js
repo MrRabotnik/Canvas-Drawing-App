@@ -147,8 +147,8 @@ function Draw(e){
             ctx.lineWidth = 2;
             ctx.lineCap = "butt";
             size = document.getElementById("size").value;
-            ctx.moveTo(e.clientX - size,e.clientY - tool_container_height)
-            ctx.lineTo(Number(e.clientX) + Number(size),e.clientY - tool_container_height + 4 - 15)
+            ctx.moveTo(e.clientX - size,e.clientY - tool_container_height + size/2)
+            ctx.lineTo(Number(e.clientX) + Number(size),e.clientY - tool_container_height + 4 - 20)
             ctx.stroke()
             ctx.beginPath()
             break;
