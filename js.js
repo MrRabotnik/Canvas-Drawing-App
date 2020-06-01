@@ -129,11 +129,13 @@ function endDrawing(e) {
 }
 
 function endShapDrawing(e){
-    if(customAttributeValue == "shapes"){
-        bottomMouseX = e.clientX
-        bottomMouseY = e.clientY
-        drawingDecidedShape()
-    }  
+    if(!selected){
+        if(customAttributeValue == "shapes"){
+            bottomMouseX = e.clientX
+            bottomMouseY = e.clientY
+            drawingDecidedShape()
+        } 
+    }
     ctx.beginPath();
 }
 
@@ -314,7 +316,7 @@ function typingInTextBox(e){
     if(e.key == "Enter"){
         shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
         ctx.font = `${size}px Arial`
-        ctx.fillText(text_box.value, topMouseX,topMouseY - tool_container_height + Number(size / 3));
+        ctx.fillText(text_box.value, topMouseX,topMouseY - tool_container_height + Number(size / 2));
     }
 }
 
