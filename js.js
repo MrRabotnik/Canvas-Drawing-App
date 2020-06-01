@@ -111,11 +111,10 @@ function startDrawing(e) {
         eraser.style.backgroundColor = "#ccc";
         selected =  true;
         e.preventDefault();
-    };
-    if(customAttributeValue == "shapes"){
+    }else if(customAttributeValue == "shapes"){
         topMouseX = e.clientX
         topMouseY = e.clientY
-    }
+    };
     clearTimeout(savingTimeOut)
     Draw(e);
 }
@@ -125,15 +124,16 @@ function endDrawing(e) {
     if(e.which == 3){
         selected =  false
         eraser.style.backgroundColor = "rgb(245,245,245)";
-
     }
+    ctx.beginPath();
+}
 
+function endShapDrawing(e){
     if(customAttributeValue == "shapes"){
         bottomMouseX = e.clientX
         bottomMouseY = e.clientY
         drawingDecidedShape()
-    }   
-
+    }  
     ctx.beginPath();
 }
 
@@ -304,8 +304,8 @@ function applyingTools(){
 function showingBoxBeforeDrawingShape(e,currentBox){
     elem = document.getElementById(currentBox)
     elem.style.display = "block";
-    elem.style.left = `${topMouseX}px`;
-    elem.style.top = `${topMouseY}px`;
+    elem.style.left = `${topMouseX - 1}px`;
+    elem.style.top = `${topMouseY - 1}px`;
     elem.style.width = `${e.clientX - topMouseX}px`;
     elem.style.height = `${e.clientY - topMouseY}px`;
 }
@@ -317,10 +317,28 @@ function drawingDecidedShape(){
     let startX = topMouseX
     let startY = topMouseY - tool_container_height
     let endX = bottomMouseX - topMouseX
-    let endY = bottomMouseY - tool_container_height - topMouseY + 37
+    let endY = bottomMouseY - topMouseY
     ctx.fillStyle = color;
-    ctx.fillRect(startX,startY,endX,endY)
-    ctx.fill()
+    switch(elem.id){
+        case "square_fill_shape_box_before_drawing":
+            ctx.fillRect(startX,startY,endX,endY)
+            ctx.fill()
+            break;
+        case "square_stroke_shape_box_before_drawing":
+            ctx.strokeRect(startX,startY,endX,endY)
+            ctx.stroke()
+            break;
+        case "circle_fill_shape_box_before_drawing":
+            ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI)
+            ctx.fill()
+            break;
+        case "circle_stroke_shape_box_before_drawing":
+            ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI)
+            ctx.stroke()
+            break;
+        default:
+            break;
+    }
 }
 
 function selectingEraser(){
@@ -423,6 +441,7 @@ function autoSaveing(){
 //=================================================================
 canvas.addEventListener("mousedown",startDrawing);
 canvas.addEventListener("mousemove",Draw);
+canvas.addEventListener("mouseup",endShapDrawing);
 document.addEventListener("mouseup",endDrawing);
 // save.addEventListener("click",saveButton);
 document.addEventListener("keydown",savingCanvasWithS);
