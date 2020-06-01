@@ -22,14 +22,14 @@ let canvasURL,savingTimeOut,currentToolId;
 let canvasIMG = [];
 let saved_text = document.getElementById("saved");
 let delete_storage = document.getElementById("delete_storage");
-let yes_btn = document.getElementById("yes_btn")
-let no_btn = document.getElementById("no_btn")
+let yes_btn = document.getElementById("yes_btn");
+let no_btn = document.getElementById("no_btn");
 let img = document.getElementById("canvas_img");
-let save = document.getElementById("save")
-let deleted_text = document.getElementById("deleted")
-let undo_elements = []
+let save = document.getElementById("save");
+let deleted_text = document.getElementById("deleted");
+let undo_elements = [];
 let index = -1;
-let dropDown = document.getElementById("drop_down")
+let dropDown = document.getElementById("drop_down");
 let toolSelection = {
     tool_pencil:"fas fa-pencil-alt",
     tool_fill:"fas fa-fill-drip",
@@ -41,6 +41,8 @@ let toolSelection = {
     tool_feather:"fas fa-feather-alt",
     tool_brush:"fas fa-paint-brush",
     tool_text:"fas fa-keyboard",
+    tool_zoom_in:"fas fa-search-plus",
+    tool_zoom_out:"fas fa-search-minus",
 };
 let cursorImages = {
     tool_pencil:"url('Images/pencil.png'),auto;",
@@ -90,12 +92,6 @@ if(localStorage.getItem("autoSaveEnabled")){
 //     canvas.width = W;
 //     canvas.height = H;
 // })
-
-function movingTool(e){
-    // ctx.beginPath()
-    // ctx.arc(e.clientX,e.clientY,size,0,2 * Math.PI);
-    // ctx.stroke();
-}
  
 function startDrawing(e) {
     drawing = true;
@@ -127,8 +123,7 @@ function Draw(e){
     ctx.strokeStyle = color;
     switch(currentToolId){
         case "tool_pencil":
-            ctx.shadowColor = "none";
-            ctx.shadowBlur = 0;  
+            nulifyingEverythingWithTools();  
             ctx.lineCap = "round";
             ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
             ctx.stroke();
@@ -136,19 +131,26 @@ function Draw(e){
             ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
             break;
         case "tool_fill":
-            ctx.shadowColor = "none";
-            ctx.shadowBlur = 0;  
-            // I DONT KNOW HOW LOL
+            nulifyingEverythingWithTools();  
             break;
         case "tool_paint_roller":
-            ctx.shadowColor = "none";
-            ctx.shadowBlur = 0;  
-        
+            nulifyingEverythingWithTools();  
+            ctx.lineWidth = 10;
+            ctx.lineCap = "butt";
+            ctx.moveTo(e.clientX - size,e.clientY - tool_container_height + 4)
+            ctx.lineTo(Number(e.clientX) + Number(size),e.clientY - tool_container_height + 4 )
+            ctx.stroke()
+            ctx.beginPath()
             break;
         case "tool_feather":
-            ctx.shadowColor = "none";
-            ctx.shadowBlur = 0;  
-        
+            nulifyingEverythingWithTools();  
+            ctx.lineWidth = 2;
+            ctx.lineCap = "butt";
+            size = document.getElementById("size").value;
+            ctx.moveTo(e.clientX - size,e.clientY - tool_container_height)
+            ctx.lineTo(Number(e.clientX) + Number(size),e.clientY - tool_container_height + 4 - 15)
+            ctx.stroke()
+            ctx.beginPath()
             break;
         case "tool_brush":
             ctx.shadowColor = color;
@@ -159,25 +161,23 @@ function Draw(e){
             ctx.beginPath();
             ctx.moveTo(e.clientX,e.clientY - tool_container_height + 4);
             break;
+        case "tool_text":
+            nulifyingEverythingWithTools();   
+            break;
         case "tool_square_fill":
-            ctx.shadowColor = "none";
-            ctx.shadowBlur = 0;   
+            nulifyingEverythingWithTools();   
             break;
         case "tool_square_stroke":
-            ctx.shadowColor = "none";
-            ctx.shadowBlur = 0;   
+            nulifyingEverythingWithTools();   
             break;
         case "tool_circle_fill":
-            ctx.shadowColor = "none";
-            ctx.shadowBlur = 0;   
+            nulifyingEverythingWithTools();   
             break;
         case "tool_circle_stroke":
-            ctx.shadowColor = "none";
-            ctx.shadowBlur = 0;   
+            nulifyingEverythingWithTools();   
             break;
         default:   
-            ctx.shadowColor = "none";
-            ctx.shadowBlur = 0; 
+            nulifyingEverythingWithTools(); 
             ctx.lineCap = "round";
             ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
             ctx.stroke();
@@ -187,9 +187,13 @@ function Draw(e){
     }
 }
 
+function nulifyingEverythingWithTools(){
+    ctx.shadowBlur = 0;   
+}
+
 function eraserTool(e){
-    ctx.shadowColor = "none";
-    ctx.shadowBlur = 0;  
+    nulifyingEverythingWithTools();
+    changeSize()
     ctx.strokeStyle = "#fff";
     ctx.lineCap = "round";
     ctx.lineTo(e.clientX,e.clientY - tool_container_height + 4);
@@ -265,6 +269,8 @@ function applyingTools(){
     $("#canvas").css({
         cursor: cursorImages[currentToolId],
     })
+    changeSize();
+    changeColor();
 }
 
 function selectingEraser(){
@@ -376,7 +382,6 @@ colorSelect.addEventListener("mouseover",() => {colorSelect.style.boxShadow = `0
 colorSelect.addEventListener("mouseout",() => {colorSelect.style.boxShadow = `none`;})
 eraser.addEventListener("click",selectingEraser);
 canvas.addEventListener("mouseleave",() => {ctx.beginPath()});
-// canvas.addEventListener("mousemove",movingTool);
 canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
 document.addEventListener("keydown",undo);
 document.addEventListener("keydown",redo);
