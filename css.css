@@ -289,8 +289,6 @@ label{
 }
 #square_fill_shape_box_before_drawing{
     border: 0.2vw dashed blue;
-    width: 100px;
-    height: 100px;
 }
 
 #square_stroke_shape_box_before_drawing{
@@ -306,4 +304,9 @@ label{
     border: 0.2vw dashed blue;
     background: transparent;
     border-radius: 50%;
+}
+
+#text_box_before_drawing{
+    border: 0.2vw dashed blue;
+    background: transparent;
 }

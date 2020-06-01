@@ -69,7 +69,7 @@ let square_fill = document.getElementsByClassName("shape_box")[0]
 let square_stroke = document.getElementsByClassName("shape_box")[1]
 let circle_fill = document.getElementsByClassName("shape_box")[2]
 let circle_stroke = document.getElementsByClassName("shape_box")[3]
-
+let text_box = document.getElementById("text_box_before_drawing")
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
@@ -186,22 +186,24 @@ function Draw(e){
             break;
         case "tool_text":
             nulifyingEverythingWithTools();   
+            showingBoxBeforeDrawingShape(e,"text_box_before_drawing");
             break;
         case "tool_square_fill":
             nulifyingEverythingWithTools(); 
-            showingBoxBeforeDrawingShape(e,"square_fill_shape_box_before_drawing")
+            checkingTheDirection(e);
+            showingBoxBeforeDrawingShape(e,"square_fill_shape_box_before_drawing");
             break;
         case "tool_square_stroke":
             nulifyingEverythingWithTools(); 
-            showingBoxBeforeDrawingShape(e,"square_stroke_shape_box_before_drawing")
+            showingBoxBeforeDrawingShape(e,"square_stroke_shape_box_before_drawing");
             break;
         case "tool_circle_fill":
             nulifyingEverythingWithTools(); 
-            showingBoxBeforeDrawingShape(e,"circle_fill_shape_box_before_drawing")
+            showingBoxBeforeDrawingShape(e,"circle_fill_shape_box_before_drawing");
             break;
         case "tool_circle_stroke":
             nulifyingEverythingWithTools(); 
-            showingBoxBeforeDrawingShape(e,"circle_stroke_shape_box_before_drawing")
+            showingBoxBeforeDrawingShape(e,"circle_stroke_shape_box_before_drawing");
             break;
         default:   
             nulifyingEverythingWithTools(); 
@@ -216,6 +218,10 @@ function Draw(e){
 
 function nulifyingEverythingWithTools(){
     ctx.shadowBlur = 0;   
+}
+
+function checkingTheDirection(e){
+    // if()
 }
 
 function eraserTool(e){
@@ -256,6 +262,7 @@ function clearCanvasButton(){
     if(localStorage.getItem("autoSaveEnabled") == "checked"){
         savingTimeOut = setTimeout(saveButton,2000)
     }
+    shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
 }
 
 function clearCanvasWithR(e){
@@ -267,6 +274,7 @@ function clearCanvasWithR(e){
         if(localStorage.getItem("autoSaveEnabled") == "checked"){
             savingTimeOut = setTimeout(saveButton,2000)
         }
+        shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
     }
 }
 
@@ -301,6 +309,15 @@ function applyingTools(){
     changeColor();
 }
 
+function typingInTextBox(e){
+    text_box.style.fontSize = `${size}px`;
+    if(e.key == "Enter"){
+        shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
+        ctx.font = `${size}px Arial`
+        ctx.fillText(text_box.value, topMouseX,topMouseY - tool_container_height + Number(size / 3));
+    }
+}
+
 function showingBoxBeforeDrawingShape(e,currentBox){
     elem = document.getElementById(currentBox)
     elem.style.display = "block";
@@ -311,7 +328,7 @@ function showingBoxBeforeDrawingShape(e,currentBox){
 }
 
 function drawingDecidedShape(){
-    for(let i = 0; i < shape_boxes_arr.length;i++){
+    for(let i = 0; i < shape_boxes_arr.length - 1;i++){
         shape_boxes_arr[i].style.display = "none";
     }
     let startX = topMouseX
@@ -461,7 +478,7 @@ yes_btn.addEventListener("click",settingTheCanvasImage)
 delete_storage.addEventListener("click",deletingLocalStorage);
 document.addEventListener("keydown",deleteSavingsWithDel);
 autoSave.addEventListener("change",autoSaveing);
-
+text_box.addEventListener("keypress",typingInTextBox)
 
 //=================================================================
 //                        JQUERY THINGS
