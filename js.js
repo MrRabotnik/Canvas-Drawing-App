@@ -328,14 +328,14 @@ function showingBoxBeforeDrawingShape(e,currentBox){
         elem = document.getElementById(currentBox)
     if(e.clientX < topMouseX + 1 && e.clientY > topMouseY + 1){
         elem.style.display = "block";
-        elem.style.left = `${e.clientX + 1}px`;
-        elem.style.top = `${topMouseY - 1}px`;
+        elem.style.left = `${e.clientX + 3}px`;
+        elem.style.top = `${topMouseY - 3}px`;
         elem.style.width = `${topMouseX - e.clientX}px`;
         elem.style.height = `${e.clientY - topMouseY}px`;
     }else if(e.clientX > topMouseX + 1 && e.clientY < topMouseY + 1){
         elem.style.display = "block";
-        elem.style.left = `${topMouseX - 1}px`;
-        elem.style.top = `${e.clientY + 1}px`;
+        elem.style.left = `${topMouseX - 3}px`;
+        elem.style.top = `${e.clientY + 3}px`;
         elem.style.width = `${e.clientX - topMouseX}px`;
         elem.style.height = `${topMouseY - e.clientY}px`;
     }else if(e.clientX < topMouseX + 1 && e.clientY < topMouseY + 1){
@@ -346,8 +346,8 @@ function showingBoxBeforeDrawingShape(e,currentBox){
         elem.style.height = `${topMouseY - e.clientY}px`;
     }else{
         elem.style.display = "block";
-        elem.style.left = `${topMouseX - 1}px`;
-        elem.style.top = `${topMouseY - 1}px`;
+        elem.style.left = `${topMouseX - 3}px`;
+        elem.style.top = `${topMouseY - 3}px`;
         elem.style.width = `${e.clientX - topMouseX}px`;
         elem.style.height = `${e.clientY - topMouseY}px`;
     }
