@@ -55,6 +55,8 @@ let cursorImages = {
     tool_feather:"",
     tool_brush:"",
     tool_text:"",
+    tool_zoom_in:"",
+    tool_zoom_out:"",
 }
 let currentToolContainer = document.getElementById("currentToolContainer");
 let CtrlPressed = false;
@@ -192,7 +194,6 @@ function Draw(e){
             break;
         case "tool_square_fill":
             nulifyingEverythingWithTools(); 
-            checkingTheDirection(e);
             showingBoxBeforeDrawingShape(e,"square_fill_shape_box_before_drawing");
             break;
         case "tool_square_stroke":
@@ -207,6 +208,12 @@ function Draw(e){
             nulifyingEverythingWithTools(); 
             showingBoxBeforeDrawingShape(e,"circle_stroke_shape_box_before_drawing");
             break;
+        case "tool_zoom_in":
+            nulifyingEverythingWithTools();  
+            break;
+        case "tool_zoom_out":
+            nulifyingEverythingWithTools();  
+            break;
         default:   
             nulifyingEverythingWithTools(); 
             ctx.lineCap = "round";
@@ -220,10 +227,6 @@ function Draw(e){
 
 function nulifyingEverythingWithTools(){
     ctx.shadowBlur = 0;   
-}
-
-function checkingTheDirection(e){
-    // if()
 }
 
 function eraserTool(e){
@@ -321,42 +324,72 @@ function typingInTextBox(e){
 }
 
 function showingBoxBeforeDrawingShape(e,currentBox){
-    elem = document.getElementById(currentBox)
-    elem.style.display = "block";
-    elem.style.left = `${topMouseX - 1}px`;
-    elem.style.top = `${topMouseY - 1}px`;
-    elem.style.width = `${e.clientX - topMouseX}px`;
-    elem.style.height = `${e.clientY - topMouseY}px`;
+        elem = document.getElementById(currentBox)
+    if(e.clientX < topMouseX + 1 && e.clientY > topMouseY + 1){
+        elem.style.display = "block";
+        elem.style.left = `${e.clientX + 1}px`;
+        elem.style.top = `${topMouseY - 1}px`;
+        elem.style.width = `${topMouseX - e.clientX}px`;
+        elem.style.height = `${e.clientY - topMouseY}px`;
+    }else if(e.clientX > topMouseX + 1 && e.clientY < topMouseY + 1){
+        elem.style.display = "block";
+        elem.style.left = `${topMouseX - 1}px`;
+        elem.style.top = `${e.clientY + 1}px`;
+        elem.style.width = `${e.clientX - topMouseX}px`;
+        elem.style.height = `${topMouseY - e.clientY}px`;
+    }else if(e.clientX < topMouseX + 1 && e.clientY < topMouseY + 1){
+        elem.style.display = "block";
+        elem.style.left = `${e.clientX + 3}px`;
+        elem.style.top = `${e.clientY + 3}px`;
+        elem.style.width = `${topMouseX - e.clientX}px`;
+        elem.style.height = `${topMouseY - e.clientY}px`;
+    }else{
+        elem.style.display = "block";
+        elem.style.left = `${topMouseX - 1}px`;
+        elem.style.top = `${topMouseY - 1}px`;
+        elem.style.width = `${e.clientX - topMouseX}px`;
+        elem.style.height = `${e.clientY - topMouseY}px`;
+    }
 }
 
 function drawingDecidedShape(){
     for(let i = 0; i < shape_boxes_arr.length - 1;i++){
         shape_boxes_arr[i].style.display = "none";
     }
-    let startX = topMouseX
-    let startY = topMouseY - tool_container_height
-    let endX = bottomMouseX - topMouseX
-    let endY = bottomMouseY - topMouseY
+    let startX = topMouseX;
+    let startY = topMouseY - tool_container_height;
+    let endX = bottomMouseX - topMouseX;
+    let endY = bottomMouseY - topMouseY;
     ctx.fillStyle = color;
     switch(elem.id){
         case "square_fill_shape_box_before_drawing":
-            ctx.fillRect(startX,startY,endX,endY)
-            ctx.fill()
+            ctx.fillRect(startX,startY,endX,endY);
+            ctx.fill();
             break;
         case "square_stroke_shape_box_before_drawing":
-            ctx.strokeRect(startX,startY,endX,endY)
-            ctx.stroke()
+            ctx.strokeRect(startX,startY,endX,endY);
+            ctx.stroke();
             break;
         case "circle_fill_shape_box_before_drawing":
-            ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI)
-            ctx.fill()
+            console.log(startX,startY,endX,endY);
+            ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
+            // ctx.fill()
             break;
         case "circle_stroke_shape_box_before_drawing":
-            ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI)
-            ctx.stroke()
+            console.log(startX,startY,endX,endY);
+            ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
+            // ctx.stroke()
             break;
         default:
             break;
+    }
+}
+
+function zoomInAndOut(){
+    if(currentToolId == "tool_zoom_in"){
+        console.log("ZoomIn")
+    }else if(currentToolId == "tool_zoom_out"){
+        console.log("ZoomOut")
     }
 }
 
@@ -471,7 +504,7 @@ colorSelect.addEventListener("change",changeColor);
 colorSelect.addEventListener("mouseover",() => {colorSelect.style.boxShadow = `0 0 1vw ${color}`;})
 colorSelect.addEventListener("mouseout",() => {colorSelect.style.boxShadow = `none`;})
 eraser.addEventListener("click",selectingEraser);
-canvas.addEventListener("mouseleave",() => {ctx.beginPath()});
+canvas.addEventListener("mouseleave",(e) => {ctx.beginPath();});
 canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
 document.addEventListener("keydown",undo);
 document.addEventListener("keydown",redo);
@@ -481,6 +514,7 @@ delete_storage.addEventListener("click",deletingLocalStorage);
 document.addEventListener("keydown",deleteSavingsWithDel);
 autoSave.addEventListener("change",autoSaveing);
 text_box.addEventListener("keypress",typingInTextBox)
+canvas.addEventListener("click",zoomInAndOut)
 
 //=================================================================
 //                        JQUERY THINGS
