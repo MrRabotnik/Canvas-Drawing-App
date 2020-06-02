@@ -274,6 +274,12 @@ label{
     font-size: 1.5vw;
     display: none;
 }
+
+#info_box > div{
+    margin: 2% 0;
+    padding: 1% 0;
+    text-align: center;
+}
 /* --------------------------------------------------------------------- */
 
 .shape_box{

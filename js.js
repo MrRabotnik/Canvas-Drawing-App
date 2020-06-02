@@ -72,6 +72,7 @@ let square_stroke = document.getElementsByClassName("shape_box")[1]
 let circle_fill = document.getElementsByClassName("shape_box")[2]
 let circle_stroke = document.getElementsByClassName("shape_box")[3]
 let text_box = document.getElementById("text_box_before_drawing")
+let blue_pressed = false
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
@@ -363,14 +364,26 @@ function drawingDecidedShape(){
     ctx.fillStyle = color;
     switch(elem.id){
         case "square_fill_shape_box_before_drawing":
+            if(blue_pressed){
+                ctx.shadowColor = color;
+                ctx.shadowBlur = size;   
+            }
             ctx.fillRect(startX,startY,endX,endY);
             ctx.fill();
             break;
         case "square_stroke_shape_box_before_drawing":
+            if(blue_pressed){
+                ctx.shadowColor = color;
+                ctx.shadowBlur = size;   
+            }
             ctx.strokeRect(startX,startY,endX,endY);
             ctx.stroke();
             break;
         case "circle_fill_shape_box_before_drawing":
+            if(blue_pressed){
+                ctx.shadowColor = color;
+                ctx.shadowBlur = size;   
+            }
             if(endX < 0 && endY > 0){
                 endX = Math.abs(endX)
                 ctx.arc(startX - endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
@@ -384,6 +397,10 @@ function drawingDecidedShape(){
             ctx.fill()
             break;
         case "circle_stroke_shape_box_before_drawing":
+            if(blue_pressed){
+                ctx.shadowColor = color;
+                ctx.shadowBlur = size;   
+            }
             if(endX < 0 && endY > 0){
                 endX = Math.abs(endX)
                 ctx.arc(startX - endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
@@ -398,6 +415,18 @@ function drawingDecidedShape(){
             break;
         default:
             break;
+    }
+}
+
+function blurSelecting(e){
+    if(e.key = "b"){
+        blue_pressed = true
+    }
+}
+
+function blurDeselecting(e){
+    if(e.key = "b"){
+        blue_pressed = false
     }
 }
 
@@ -532,6 +561,8 @@ autoSave.addEventListener("change",autoSaveing);
 text_box.addEventListener("keypress",typingInTextBox)
 text_box.addEventListener("focus",typingInTextBox)
 canvas.addEventListener("click",zoomInAndOut)
+document.addEventListener("keydown",blurSelecting)
+document.addEventListener("keyup",blurDeselecting)
 
 //=================================================================
 //                        JQUERY THINGS
