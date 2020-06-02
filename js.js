@@ -318,7 +318,7 @@ function applyingTools(){
 function typingInTextBox(e){
     text_box.style.fontSize = `${size}px`;
     if(e.key == "Enter"){
-        shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
+        text_box.style.display = "none";
         ctx.font = `${size}px Arial`
         ctx.fillText(text_box.value, topMouseX,topMouseY - tool_container_height + Number(size / 2));
     }
@@ -354,7 +354,7 @@ function showingBoxBeforeDrawingShape(e,currentBox){
 }
 
 function drawingDecidedShape(){
-    for(let i = 0; i < shape_boxes_arr.length - 1;i++){
+    for(let i = 0; i < shape_boxes_arr.length;i++){
         shape_boxes_arr[i].style.display = "none";
     }
     let startX = topMouseX;
@@ -392,7 +392,7 @@ function drawingDecidedShape(){
                 endY = Math.abs(endY)
                 ctx.arc(startX - endX/2,startY - endY/2,endX/2,0,2 * Math.PI);
             }else{
-                ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
+                ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI); 
             }
             ctx.fill()
             break;
@@ -418,6 +418,24 @@ function drawingDecidedShape(){
     }
 }
 
+function drawEllipse(ctx, x, y, w, h) {
+  var kappa = .5522848,
+      ox = (w / 2) * kappa, // control point offset horizontal
+      oy = (h / 2) * kappa, // control point offset vertical
+      xe = x + w,           // x-end
+      ye = y + h,           // y-end
+      xm = x + w / 2,       // x-middle
+      ym = y + h / 2;       // y-middle
+
+  ctx.beginPath();
+  ctx.moveTo(x, ym);
+  ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
+  ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
+  ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
+  ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
+  ctx.stroke();
+}
+
 function blurSelecting(e){
     if(e.key = "b"){
         blue_pressed = true
@@ -432,9 +450,9 @@ function blurDeselecting(e){
 
 function zoomInAndOut(){
     if(currentToolId == "tool_zoom_in"){
-        console.log("ZoomIn")
+
     }else if(currentToolId == "tool_zoom_out"){
-        console.log("ZoomOut")
+        
     }
 }
 
