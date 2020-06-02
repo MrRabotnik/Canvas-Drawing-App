@@ -608,3 +608,10 @@ $("#canvas").click(function(){
 })
 
 $(".tool_favicon_container").click(applyingTools)
+
+$(".shape_box").mousemove(function(e){
+    $(this).css({
+        width:`${e.clientX - topMouseX}px`,
+        height:`${e.clientY - topMouseY}px`,
+    })
+})
