@@ -371,14 +371,30 @@ function drawingDecidedShape(){
             ctx.stroke();
             break;
         case "circle_fill_shape_box_before_drawing":
-            console.log(startX,startY,endX,endY);
-            ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
-            // ctx.fill()
+            if(endX < 0 && endY > 0){
+                endX = Math.abs(endX)
+                ctx.arc(startX - endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
+            }else if(endX < 0 && endY < 0){
+                endX = Math.abs(endX)
+                endY = Math.abs(endY)
+                ctx.arc(startX - endX/2,startY - endY/2,endX/2,0,2 * Math.PI);
+            }else{
+                ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
+            }
+            ctx.fill()
             break;
         case "circle_stroke_shape_box_before_drawing":
-            console.log(startX,startY,endX,endY);
-            ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
-            // ctx.stroke()
+            if(endX < 0 && endY > 0){
+                endX = Math.abs(endX)
+                ctx.arc(startX - endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
+            }else if(endX < 0 && endY < 0){
+                endX = Math.abs(endX)
+                endY = Math.abs(endY)
+                ctx.arc(startX - endX/2,startY - endY/2,endX/2,0,2 * Math.PI);
+            }else{
+                ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
+            }
+            ctx.stroke()
             break;
         default:
             break;
@@ -514,6 +530,7 @@ delete_storage.addEventListener("click",deletingLocalStorage);
 document.addEventListener("keydown",deleteSavingsWithDel);
 autoSave.addEventListener("change",autoSaveing);
 text_box.addEventListener("keypress",typingInTextBox)
+text_box.addEventListener("focus",typingInTextBox)
 canvas.addEventListener("click",zoomInAndOut)
 
 //=================================================================
