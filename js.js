@@ -199,6 +199,7 @@ function Draw(e){
             break;
         case "tool_square_stroke":
             nulifyingEverythingWithTools(); 
+            square_stroke.style.borderWidth = `${sizeSelect.value}px`;
             showingBoxBeforeDrawingShape(e,"square_stroke_shape_box_before_drawing");
             break;
         case "tool_circle_fill":
@@ -207,6 +208,7 @@ function Draw(e){
             break;
         case "tool_circle_stroke":
             nulifyingEverythingWithTools(); 
+            circle_stroke.style.borderWidth = `${sizeSelect.value}px`;
             showingBoxBeforeDrawingShape(e,"circle_stroke_shape_box_before_drawing");
             break;
         case "tool_zoom_in":
@@ -328,26 +330,26 @@ function showingBoxBeforeDrawingShape(e,currentBox){
         elem = document.getElementById(currentBox)
     if(e.clientX < topMouseX + 1 && e.clientY > topMouseY + 1){
         elem.style.display = "block";
-        elem.style.left = `${e.clientX + 3}px`;
-        elem.style.top = `${topMouseY - 3}px`;
+        elem.style.left = `${e.clientX}px`;
+        elem.style.top = `${topMouseY}px`;
         elem.style.width = `${topMouseX - e.clientX}px`;
         elem.style.height = `${e.clientY - topMouseY}px`;
     }else if(e.clientX > topMouseX + 1 && e.clientY < topMouseY + 1){
         elem.style.display = "block";
-        elem.style.left = `${topMouseX - 3}px`;
-        elem.style.top = `${e.clientY + 3}px`;
+        elem.style.left = `${topMouseX}px`;
+        elem.style.top = `${e.clientY}px`;
         elem.style.width = `${e.clientX - topMouseX}px`;
         elem.style.height = `${topMouseY - e.clientY}px`;
     }else if(e.clientX < topMouseX + 1 && e.clientY < topMouseY + 1){
         elem.style.display = "block";
-        elem.style.left = `${e.clientX + 3}px`;
-        elem.style.top = `${e.clientY + 3}px`;
+        elem.style.left = `${e.clientX}px`;
+        elem.style.top = `${e.clientY}px`;
         elem.style.width = `${topMouseX - e.clientX}px`;
         elem.style.height = `${topMouseY - e.clientY}px`;
     }else{
         elem.style.display = "block";
-        elem.style.left = `${topMouseX - 3}px`;
-        elem.style.top = `${topMouseY - 3}px`;
+        elem.style.left = `${topMouseX}px`;
+        elem.style.top = `${topMouseY}px`;
         elem.style.width = `${e.clientX - topMouseX}px`;
         elem.style.height = `${e.clientY - topMouseY}px`;
     }
@@ -376,7 +378,7 @@ function drawingDecidedShape(){
                 ctx.shadowColor = color;
                 ctx.shadowBlur = size;   
             }
-            ctx.strokeRect(startX,startY,endX,endY);
+            ctx.strokeRect(startX + Math.floor(sizeSelect.value/2),startY + Math.floor(sizeSelect.value/2),endX - Math.floor(sizeSelect.value),endY - Math.floor(sizeSelect.value));
             ctx.stroke();
             break;
         case "circle_fill_shape_box_before_drawing":
@@ -632,4 +634,4 @@ $(".shape_box").mousemove(function(e){
         width:`${e.clientX - topMouseX}px`,
         height:`${e.clientY - topMouseY}px`,
     })
-})
+});
