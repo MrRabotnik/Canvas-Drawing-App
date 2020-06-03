@@ -74,12 +74,16 @@ let circle_stroke = document.getElementsByClassName("shape_box")[3]
 let text_box = document.getElementById("text_box_before_drawing")
 let blue_pressed = false
 let canvasLeaved = false
+let canvasW,canvasH;
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
 //=================================================================
+window.addEventListener("load",checkingLocalStorage)
 canvas.width = W;
 canvas.height = H - 4;
+canvasW = canvas.width
+canvasH = canvas.height
 ctx.beginPath();
 ctx.lineWidth = size;
 //Filling the color options
@@ -439,24 +443,6 @@ function drawingDecidedShape(){
     }
 }
 
-function drawEllipse(ctx, x, y, w, h) {
-  var kappa = .5522848,
-      ox = (w / 2) * kappa, // control point offset horizontal
-      oy = (h / 2) * kappa, // control point offset vertical
-      xe = x + w,           // x-end
-      ye = y + h,           // y-end
-      xm = x + w / 2,       // x-middle
-      ym = y + h / 2;       // y-middle
-
-  ctx.beginPath();
-  ctx.moveTo(x, ym);
-  ctx.bezierCurveTo(x, ym - oy, xm - ox, y, xm, y);
-  ctx.bezierCurveTo(xm + ox, y, xe, ym - oy, xe, ym);
-  ctx.bezierCurveTo(xe, ym + oy, xm + ox, ye, xm, ye);
-  ctx.bezierCurveTo(xm - ox, ye, x, ym + oy, x, ym);
-  ctx.stroke();
-}
-
 function blurSelecting(e){
     if(e.key = "b"){
         blue_pressed = true
@@ -471,9 +457,16 @@ function blurDeselecting(e){
 
 function zoomInAndOut(){
     if(currentToolId == "tool_zoom_in"){
-
+        canvas.width = canvasW + 200
+        canvas.height = canvasH + 100
+        canvasW = canvas.width
+        canvasH = canvas.height
     }else if(currentToolId == "tool_zoom_out"){
-        
+        console.log(canvas.width,W)
+        canvas.width = canvasW - 200
+        canvas.height = canvasH - 100
+        canvasW = canvas.width
+        canvasH = canvas.height
     }
 }
 
@@ -582,33 +575,38 @@ function leavingCanvas(e){
 //=================================================================
 //                        CALLING THE FUNCTIONS
 //=================================================================
+//Mouse and Key Down
 canvas.addEventListener("mousedown",startDrawing);
-canvas.addEventListener("mousemove",Draw);
-// canvas.addEventListener("mouseup",endShapDrawing);
-document.addEventListener("mouseup",endDrawing);
-// save.addEventListener("click",saveButton);
 document.addEventListener("keydown",savingCanvasWithS);
-btn.addEventListener("click",clearCanvasButton);
 document.addEventListener("keydown",clearCanvasWithR);
-sizeSelect.addEventListener("change",changeSize);
-colorSelect.addEventListener("change",changeColor);
-colorSelect.addEventListener("mouseover",() => {colorSelect.style.boxShadow = `0 0 1vw ${color}`;})
-colorSelect.addEventListener("mouseout",() => {colorSelect.style.boxShadow = `none`;})
-eraser.addEventListener("click",selectingEraser);
-canvas.addEventListener("mouseleave",leavingCanvas);
-canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
 document.addEventListener("keydown",undo);
 document.addEventListener("keydown",redo);
-window.addEventListener("load",checkingLocalStorage)
+document.addEventListener("keydown",deleteSavingsWithDel);
+text_box.addEventListener("keypress",typingInTextBox)
+document.addEventListener("keydown",blurSelecting)
+
+//Mouse and Key Up
+document.addEventListener("mouseup",endDrawing);
+canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
+document.addEventListener("keyup",blurDeselecting)
+
+//Mouse move,over,out, leave
+canvas.addEventListener("mousemove",Draw);
+colorSelect.addEventListener("mouseover",() => {colorSelect.style.boxShadow = `0 0 1vw ${color}`;})
+colorSelect.addEventListener("mouseout",() => {colorSelect.style.boxShadow = `none`;})
+canvas.addEventListener("mouseleave",leavingCanvas);
+
+//Click, change and focus
+eraser.addEventListener("click",selectingEraser);
+canvas.addEventListener("click",zoomInAndOut)
 yes_btn.addEventListener("click",settingTheCanvasImage)
 delete_storage.addEventListener("click",deletingLocalStorage);
-document.addEventListener("keydown",deleteSavingsWithDel);
 autoSave.addEventListener("change",autoSaveing);
-text_box.addEventListener("keypress",typingInTextBox)
 text_box.addEventListener("focus",typingInTextBox)
-canvas.addEventListener("click",zoomInAndOut)
-document.addEventListener("keydown",blurSelecting)
-document.addEventListener("keyup",blurDeselecting)
+btn.addEventListener("click",clearCanvasButton);
+sizeSelect.addEventListener("change",changeSize);
+colorSelect.addEventListener("change",changeColor);
+// save.addEventListener("click",saveButton);
  
 //=================================================================
 //                        JQUERY THINGS

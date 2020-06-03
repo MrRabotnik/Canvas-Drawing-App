@@ -1,6 +1,8 @@
 body{
     margin: 0;
     user-select: none;
+    background: #ccc;
+    overflow: auto;
 }
 a{
     text-decoration: none;
@@ -8,6 +10,9 @@ a{
 }
 #canvas{
     cursor: url("Images/pencil.png"),auto;
+    background: white;
+    display: block;
+    margin: auto;
 }
 
 /*=============================================
