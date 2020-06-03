@@ -65,7 +65,7 @@ let autoSave = document.getElementById("autosave");
 let settingsBtn = document.getElementById("settings_btn")
 let settings_drop_down = document.getElementById("settings_drop_down")
 let settingsShowed = false
-let topMouseX,topMouseY,bottomMouseX,bottomMouseY,customAttributeValue;
+let topMouseX,topMouseY,bottomMouseX,bottomMouseY,customAttributeValue,canvasLeavedX,canvasLeavedYt;
 let shape_boxes_arr = document.getElementsByClassName("shape_box")
 let square_fill = document.getElementsByClassName("shape_box")[0]
 let square_stroke = document.getElementsByClassName("shape_box")[1]
@@ -73,6 +73,7 @@ let circle_fill = document.getElementsByClassName("shape_box")[2]
 let circle_stroke = document.getElementsByClassName("shape_box")[3]
 let text_box = document.getElementById("text_box_before_drawing")
 let blue_pressed = false
+let canvasLeaved = false
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
@@ -115,32 +116,50 @@ function startDrawing(e) {
         selected =  true;
         e.preventDefault();
     }else if(customAttributeValue == "shapes"){
-        topMouseX = e.clientX
-        topMouseY = e.clientY
+            topMouseX = e.clientX
+            topMouseY = e.clientY
     };
     clearTimeout(savingTimeOut)
     Draw(e);
 }
 
 function endDrawing(e) {
-    drawing = false;
     if(e.which == 3){
         selected =  false
         eraser.style.backgroundColor = "rgb(245,245,245)";
+    }else if(!selected){
+        if(customAttributeValue == "shapes"){
+            if(canvasLeaved){
+                bottomMouseX = canvasLeavedX
+                bottomMouseY = canvasLeavedY
+            }else{
+                bottomMouseX = e.clientX
+                bottomMouseY = e.clientY
+            }
+
+            shapeBoxDrawing = false
+            if(drawing){
+                drawingDecidedShape()
+            }
+            topMouseX = 0
+            topMouseY = 0
+        } 
     }
+    drawing = false;
+    canvasLeaved = false
     ctx.beginPath();
 }
 
-function endShapDrawing(e){
-    if(!selected){
-        if(customAttributeValue == "shapes"){
-            bottomMouseX = e.clientX
-            bottomMouseY = e.clientY
-            drawingDecidedShape()
-        } 
-    }
-    ctx.beginPath();
-}
+// function endShapDrawing(e){
+//     if(!selected){
+//         if(customAttributeValue == "shapes"){
+//             bottomMouseX = e.clientX
+//             bottomMouseY = e.clientY
+//             shapeBoxDrawing = false
+//         } 
+//     }
+//     ctx.beginPath();
+// }
 
 function Draw(e){
     if(!drawing) return;
@@ -149,6 +168,9 @@ function Draw(e){
         return;
     }
     ctx.strokeStyle = color;
+    canvasLeaved = false;
+    canvasLeavedX = e.clientX
+    canvasLeavedY = e.clientY
     switch(currentToolId){
         case "tool_pencil":
             nulifyingEverythingWithTools();  
@@ -327,7 +349,7 @@ function typingInTextBox(e){
 }
 
 function showingBoxBeforeDrawingShape(e,currentBox){
-        elem = document.getElementById(currentBox)
+    elem = document.getElementById(currentBox)
     if(e.clientX < topMouseX + 1 && e.clientY > topMouseY + 1){
         elem.style.display = "block";
         elem.style.left = `${e.clientX}px`;
@@ -552,13 +574,20 @@ function autoSaveing(){
 }
 
 
+function leavingCanvas(e){
+    ctx.beginPath();
+    canvasLeaved = true
+}
+
+
+
 
 //=================================================================
 //                        CALLING THE FUNCTIONS
 //=================================================================
 canvas.addEventListener("mousedown",startDrawing);
 canvas.addEventListener("mousemove",Draw);
-canvas.addEventListener("mouseup",endShapDrawing);
+// canvas.addEventListener("mouseup",endShapDrawing);
 document.addEventListener("mouseup",endDrawing);
 // save.addEventListener("click",saveButton);
 document.addEventListener("keydown",savingCanvasWithS);
@@ -569,7 +598,7 @@ colorSelect.addEventListener("change",changeColor);
 colorSelect.addEventListener("mouseover",() => {colorSelect.style.boxShadow = `0 0 1vw ${color}`;})
 colorSelect.addEventListener("mouseout",() => {colorSelect.style.boxShadow = `none`;})
 eraser.addEventListener("click",selectingEraser);
-canvas.addEventListener("mouseleave",(e) => {ctx.beginPath();});
+canvas.addEventListener("mouseleave",leavingCanvas);
 canvas.addEventListener("mouseup",savingCurrentCanvasForUndo)
 document.addEventListener("keydown",undo);
 document.addEventListener("keydown",redo);
