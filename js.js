@@ -168,7 +168,6 @@ function Draw(e){
         return;
     }
     ctx.strokeStyle = color;
-    canvasLeaved = false;
     canvasLeavedX = e.clientX
     canvasLeavedY = e.clientY
     switch(currentToolId){
@@ -221,7 +220,6 @@ function Draw(e){
             break;
         case "tool_square_stroke":
             nulifyingEverythingWithTools(); 
-            square_stroke.style.borderWidth = `${sizeSelect.value}px`;
             showingBoxBeforeDrawingShape(e,"square_stroke_shape_box_before_drawing");
             break;
         case "tool_circle_fill":
@@ -230,7 +228,6 @@ function Draw(e){
             break;
         case "tool_circle_stroke":
             nulifyingEverythingWithTools(); 
-            circle_stroke.style.borderWidth = `${sizeSelect.value}px`;
             showingBoxBeforeDrawingShape(e,"circle_stroke_shape_box_before_drawing");
             break;
         case "tool_zoom_in":
@@ -612,7 +609,7 @@ text_box.addEventListener("focus",typingInTextBox)
 canvas.addEventListener("click",zoomInAndOut)
 document.addEventListener("keydown",blurSelecting)
 document.addEventListener("keyup",blurDeselecting)
-
+ 
 //=================================================================
 //                        JQUERY THINGS
 //=================================================================
