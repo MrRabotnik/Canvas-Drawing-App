@@ -309,6 +309,16 @@ label{
     display: none;   
     box-sizing: border-box;
 }
+.line_box{
+    position: absolute;
+    padding: 0;
+    margin: 0;
+    left: 0;
+    top: 20%;
+    box-sizing: border-box;
+    display: none;   
+    z-index: 5;
+}
 #square_fill_shape_box_before_drawing{
     border: 0.2vw dashed blue;
 }
@@ -330,5 +340,10 @@ label{
 
 #text_box_before_drawing{
     border: 0.2vw dashed blue;
+    background: transparent;
+}
+
+#line_box_before_drawing{
+    border-top: 0.1vw dashed blue;
     background: transparent;
 }

@@ -43,6 +43,8 @@ let toolSelection = {
     tool_text:"fas fa-keyboard",
     tool_zoom_in:"fas fa-search-plus",
     tool_zoom_out:"fas fa-search-minus",
+    tool_line:"fas fa-slash",
+    tool_color_picker:"fas fa-eye-dropper",
 };
 let cursorImages = {
     tool_pencil:"url(Images/pencil.png),auto;",
@@ -71,7 +73,8 @@ let square_fill = document.getElementsByClassName("shape_box")[0]
 let square_stroke = document.getElementsByClassName("shape_box")[1]
 let circle_fill = document.getElementsByClassName("shape_box")[2]
 let circle_stroke = document.getElementsByClassName("shape_box")[3]
-let text_box = document.getElementById("text_box_before_drawing")
+let text_box = document.getElementById("text_box_before_drawing");
+let line_tool_box = document.getElementsByClassName("shape_box")[4];
 let blue_pressed = false
 let canvasLeaved = false
 let canvasW,canvasH;
@@ -98,10 +101,11 @@ if(localStorage.getItem("autoSaveEnabled")){
 }else{
     localStorage.setItem("autoSaveEnabled","checked");
 }
-square_fill.id = "square_fill_shape_box_before_drawing"
-square_stroke.id = "square_stroke_shape_box_before_drawing"
-circle_fill.id = "circle_fill_shape_box_before_drawing"
-circle_stroke.id = "circle_stroke_shape_box_before_drawing"
+square_fill.id = "square_fill_shape_box_before_drawing";
+square_stroke.id = "square_stroke_shape_box_before_drawing";
+circle_fill.id = "circle_fill_shape_box_before_drawing";
+circle_stroke.id = "circle_stroke_shape_box_before_drawing";
+line_tool_box.id = "line_box_before_drawing";
 
 //=================================================================
 //                        FUNCTIONS
@@ -140,7 +144,6 @@ function endDrawing(e) {
                 bottomMouseX = e.clientX
                 bottomMouseY = e.clientY
             }
-
             shapeBoxDrawing = false
             if(drawing){
                 drawingDecidedShape()
@@ -151,17 +154,6 @@ function endDrawing(e) {
     canvasLeaved = false
     ctx.beginPath();
 }
-
-// function endShapDrawing(e){
-//     if(!selected){
-//         if(customAttributeValue == "shapes"){
-//             bottomMouseX = e.clientX
-//             bottomMouseY = e.clientY
-//             shapeBoxDrawing = false
-//         } 
-//     }
-//     ctx.beginPath();
-// }
 
 function Draw(e){
     if(!drawing) return;
@@ -216,6 +208,13 @@ function Draw(e){
         case "tool_text":
             nulifyingEverythingWithTools();   
             showingBoxBeforeDrawingShape(e,"text_box_before_drawing");
+            break;
+        case "tool_line":
+            nulifyingEverythingWithTools();   
+            showingLineBoxBeforeStroking(e,"line_box_before_drawing")
+            break;
+        case "tool_color_picker":
+            nulifyingEverythingWithTools();   
             break;
         case "tool_square_fill":
             nulifyingEverythingWithTools(); 
@@ -294,6 +293,7 @@ function clearCanvasButton(){
     }
     shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
     localStorage.setItem("cleared","cleared")
+    text_box.style.display = "none";
 }
 
 function clearCanvasWithR(e){
@@ -307,6 +307,7 @@ function clearCanvasWithR(e){
         }
         shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
         localStorage.setItem("cleared","cleared")
+        text_box.style.display = "none";
     }
 }
 
@@ -339,15 +340,15 @@ function applyingTools(){
     })
     changeSize();
     changeColor();
+    text_box.style.display = "none";
 }
 
 function typingInTextBox(e){
-    text_box.style.fontSize = `${size}px`;
+    text_box.style.fontSize = `${(bottomMouseY - topMouseY)/2}px`;
     if(e.key == "Enter"){
         text_box.style.display = "none";
-        ctx.font = `${size}px Arial`
-        console.log(topMouseY)
-        ctx.fillText(text_box.value, topMouseX,topMouseY - tool_container_height + Number(size / 2));
+        ctx.font = `${(bottomMouseY - topMouseY)/2}px Arial`
+        ctx.fillText(text_box.value, topMouseX,topMouseY + (bottomMouseY - topMouseY)/4);
     }
 }
 
@@ -378,6 +379,18 @@ function showingBoxBeforeDrawingShape(e,currentBox){
         elem.style.width = `${e.clientX - topMouseX}px`;
         elem.style.height = `${e.clientY - topMouseY}px`;
     }
+}
+
+function showingLineBoxBeforeStroking(e,currentBox){
+    elem = document.getElementById(currentBox)
+    let angle = -50;
+    elem.style.display = "block";
+    elem.style.borderWidth = `${size}px`;
+    elem.style.borderColor = color;
+    elem.style.left = `${topMouseX}px`;
+    elem.style.top = `${topMouseY}px`;
+    elem.style.width = `${topMouseX - e.clientX}px`;
+    elem.style.transform = `rotate(${angle}deg)`;
 }
 
 function drawingDecidedShape(){
@@ -438,6 +451,18 @@ function drawingDecidedShape(){
             }else{
                 ctx.arc(startX + endX/2,startY + endY/2,endX/2,0,2 * Math.PI);
             }
+            ctx.stroke()
+            break;
+        case "line_box_before_drawing":
+            if(blue_pressed){
+                ctx.shadowColor = color;
+                ctx.shadowBlur = size;   
+            }
+            ctx.lineCap = "round"; 
+            ctx.lineWidth = size;
+            ctx.strokeStyle = color;
+            ctx.moveTo(topMouseX,topMouseY - tool_container_height)
+            ctx.lineTo(bottomMouseX,bottomMouseY - tool_container_height)
             ctx.stroke()
             break;
         default:
