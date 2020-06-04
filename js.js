@@ -47,19 +47,19 @@ let toolSelection = {
     tool_color_picker:"fas fa-eye-dropper",
 };
 let cursorImages = {
-    tool_pencil:"url('Images/pencil_cur.png'), auto",
-    tool_fill:"url(Images/fill-color.png), pointer",
-    tool_square_fill:"",
-    tool_square_stroke:"",
-    tool_circle_fill:"",
-    tool_circle_stroke:"",
-    tool_paint_roller:"",
-    tool_feather:"",
-    tool_brush:"",
-    tool_text:"",
-    tool_zoom_in:"",
-    tool_zoom_out:"",
-    tool_line:"",
+    tool_pencil:"url('Images/Cursors/pencil_cur.png'), auto",
+    tool_fill:"url(Images/Cursors/fill_color_cur.png), pointer",
+    tool_square_fill:"url(Images/Cursors/square_fill_cur.png), pointer",
+    tool_square_stroke:"url(Images/Cursors/square_stroke_cur.png), pointer",
+    tool_circle_fill:"url(Images/Cursors/circle_fill_cur.png), pointer",
+    tool_circle_stroke:"url(Images/Cursors/circle_stroke_cur.png), pointer",
+    tool_paint_roller:"url(Images/Cursors/paint_roller_cur.png), pointer",
+    tool_feather:"url(Images/Cursors/feather_cur.png), pointer",
+    tool_brush:"url(Images/Cursors/brush_cur.png), pointer",
+    tool_text:"url(Images/Cursors/text_cur.png), pointer",
+    tool_zoom_in:"url(Images/Cursors/zoom_in_cur.png), pointer",
+    tool_zoom_out:"url(Images/Cursors/zoom_out_cur.png), pointer",
+    tool_line:"url(Images/Cursors/line_cur.png), pointer",
 }
 let currentToolContainer = document.getElementById("currentToolContainer");
 let CtrlPressed = false;
