@@ -140,7 +140,7 @@ function endDrawing(e) {
         selected =  false
         eraser.style.backgroundColor = "rgb(245,245,245)";
         $("#canvas").css({
-            cursor: "auto",
+            cursor: "url(Images/Cursors/eraser_cur.png),pointer",
         })
     }else if(!selected){
         if(customAttributeValue == "shapes"){
@@ -510,7 +510,7 @@ function selectingEraser(){
         })
     }else{
         $("#canvas").css({
-            cursor: "auto",
+            cursor: "url(Images/Cursors/eraser_cur.png),pointer",
         })
         eraser.style.backgroundColor = "rgb(245,245,245)";
         selected =  false
