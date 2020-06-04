@@ -174,6 +174,7 @@ function Draw(e){
     ctx.strokeStyle = color;
     canvasLeavedX = e.clientX
     canvasLeavedY = e.clientY
+    localStorage.setItem("cleared","notCleared")
     switch(currentToolId){
         case "tool_pencil":
             nulifyingEverythingWithTools();  
@@ -294,6 +295,7 @@ function clearCanvasButton(){
         savingTimeOut = setTimeout(saveButton,2000)
     }
     shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
+    localStorage.setItem("cleared","cleared")
 }
 
 function clearCanvasWithR(e){
@@ -306,6 +308,7 @@ function clearCanvasWithR(e){
             savingTimeOut = setTimeout(saveButton,2000)
         }
         shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
+        localStorage.setItem("cleared","cleared")
     }
 }
 
@@ -505,7 +508,8 @@ function deleteSavingsWithDel(e){
 }
 
 function checkingLocalStorage(){
-    if(localStorage.getItem("items")){
+    console.log(localStorage.getItem("cleared"))
+    if(localStorage.getItem("items") && localStorage.getItem("cleared") == "notCleared"){
         $("#new_or_saved_section").css("display","flex");
         img.setAttribute("src",localStorage.getItem("items"));
     }else{
