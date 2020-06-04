@@ -186,8 +186,8 @@ option{
 
 #drop_down{
     position: absolute;
-    left: -3%;
-    width: 102.5%;
+    left: -30%;
+    width: 152.5%;
     top: 100%;
     border: 0.1vw solid black;
     border-radius: 0 0 0.5vw 0.5vw;
@@ -207,6 +207,7 @@ option{
     height: 100%;
     display: flex;
     align-items: center;
+    font-size: 1.5vw;
     justify-content: space-evenly;
 }
 
