@@ -140,7 +140,7 @@ function endDrawing(e) {
         selected =  false
         eraser.style.backgroundColor = "rgb(245,245,245)";
         $("#canvas").css({
-            cursor: "url(Images/Cursors/eraser_cur.png),pointer",
+            cursor: cursorImages[currentToolId],
         })
     }else if(!selected){
         if(customAttributeValue == "shapes"){
@@ -254,6 +254,9 @@ function Draw(e){
             break;
         default:   
             nulifyingEverythingWithTools(); 
+            $("#canvas").css({
+                cursor: "url('Images/Cursors/pencil_cur.png'), auto",
+            })
             ctx.lineCap = "round";
             ctx.lineTo(e.clientX,e.clientY - tool_container_height + 0.5);
             ctx.stroke();
@@ -510,7 +513,7 @@ function selectingEraser(){
         })
     }else{
         $("#canvas").css({
-            cursor: "url(Images/Cursors/eraser_cur.png),pointer",
+            cursor: cursorImages[currentToolId],
         })
         eraser.style.backgroundColor = "rgb(245,245,245)";
         selected =  false
