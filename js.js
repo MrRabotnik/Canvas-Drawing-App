@@ -457,16 +457,21 @@ function blurDeselecting(e){
 
 function zoomInAndOut(){
     if(currentToolId == "tool_zoom_in"){
-        canvas.width = canvasW + 200
-        canvas.height = canvasH + 100
-        canvasW = canvas.width
-        canvasH = canvas.height
+        canvasW += 250;
+        canvasH += 150;
+        let canvasWidthCss = `${canvasW}px`;
+        let canvasHeighthCss = `${canvasW}px`;
+        canvas.style.width = canvasWidthCss;
+        canvas.style.height = canvasHeighthCss;
     }else if(currentToolId == "tool_zoom_out"){
-        console.log(canvas.width,W)
-        canvas.width = canvasW - 200
-        canvas.height = canvasH - 100
-        canvasW = canvas.width
-        canvasH = canvas.height
+        if(canvasW > 200){
+            canvasW -= 250;
+            canvasH -= 150;
+        }
+        let canvasWidthCss = `${canvasW}px`;
+        let canvasHeighthCss = `${canvasW}px`;
+        canvas.style.width = canvasWidthCss;
+        canvas.style.height = canvasHeighthCss;
     }
 }
 

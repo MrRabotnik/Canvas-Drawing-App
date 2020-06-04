@@ -8,11 +8,19 @@ a{
     text-decoration: none;
     color: indigo;
 }
+.canvcas_container{
+    height: 90vh;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
 #canvas{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
     cursor: url("Images/pencil.png"),auto;
     background: white;
-    display: block;
-    margin: auto;
 }
 
 /*=============================================
