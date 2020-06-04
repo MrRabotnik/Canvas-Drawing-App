@@ -284,7 +284,7 @@ function saveButton(){
     localStorage.setItem("items", canvasURL);
     $(deleted_text).hide();
     $(saved_text).fadeIn(1000);
-    setTimeout(() => {$(saved_text).fadeOut(1000)},3000);
+    setTimeout(() => {$(saved_text).fadeOut(1000)},2000);
 }
 
 function clearCanvasButton(){
