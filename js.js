@@ -47,8 +47,8 @@ let toolSelection = {
     tool_color_picker:"fas fa-eye-dropper",
 };
 let cursorImages = {
-    tool_pencil:"url(Images/pencil.png),auto;",
-    tool_fill:"url(Images/fill-color.png),auto;",
+    tool_pencil:"url('Images/pencil_cur.png'), auto",
+    tool_fill:"url(Images/fill-color.png), pointer",
     tool_square_fill:"",
     tool_square_stroke:"",
     tool_circle_fill:"",
@@ -59,6 +59,7 @@ let cursorImages = {
     tool_text:"",
     tool_zoom_in:"",
     tool_zoom_out:"",
+    tool_line:"",
 }
 let currentToolContainer = document.getElementById("currentToolContainer");
 let CtrlPressed = false;
@@ -343,7 +344,6 @@ function changeColor(){
 function applyingTools(){
     currentToolId = this.id
     customAttributeValue = this.getAttribute("data-class")
-    currentToolContainer.innerHTML = ""
     currentToolContainer.innerHTML = `<i class="${toolSelection[currentToolId]}"></i>`;
     $("#canvas").css({
         cursor: cursorImages[currentToolId],

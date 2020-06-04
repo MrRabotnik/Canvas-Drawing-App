@@ -9,7 +9,6 @@ a{
     color: indigo;
 }
 #canvas{
-    cursor: url("Images/pencil.png"),auto;
     background: white;
     display: block;
     margin: auto;
@@ -125,6 +124,7 @@ button:hover, #size:hover,#tools:hover{
     align-items: center;
     transition: 0.5s;
     cursor: pointer;
+    /* cursor: url("Images/eraser_cur.png"), pointer; */
 }
 
 #tools_container button,select,div{
