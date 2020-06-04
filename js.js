@@ -145,8 +145,6 @@ function endDrawing(e) {
             if(drawing){
                 drawingDecidedShape()
             }
-            topMouseX = 0
-            topMouseY = 0
         } 
     }
     drawing = false;
@@ -348,6 +346,7 @@ function typingInTextBox(e){
     if(e.key == "Enter"){
         text_box.style.display = "none";
         ctx.font = `${size}px Arial`
+        console.log(topMouseY)
         ctx.fillText(text_box.value, topMouseX,topMouseY - tool_container_height + Number(size / 2));
     }
 }
@@ -508,7 +507,6 @@ function deleteSavingsWithDel(e){
 }
 
 function checkingLocalStorage(){
-    console.log(localStorage.getItem("cleared"))
     if(localStorage.getItem("items") && localStorage.getItem("cleared") == "notCleared"){
         $("#new_or_saved_section").css("display","flex");
         img.setAttribute("src",localStorage.getItem("items"));
