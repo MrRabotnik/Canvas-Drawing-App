@@ -491,7 +491,7 @@ function deletingLocalStorage(){
     localStorage.removeItem("items");
     $(saved_text).hide();
     $(deleted_text).fadeIn(1000);
-    setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
+    setTimeout(() => {$(deleted_text).fadeOut(1000)},2000);
     undo_elements = [];
     index = -1;
 }
@@ -501,7 +501,7 @@ function deleteSavingsWithDel(e){
         localStorage.removeItem("items");
         $(saved_text).hide();
         $(deleted_text).fadeIn(1000);
-        setTimeout(() => {$(deleted_text).fadeOut(1000)},3000);
+        setTimeout(() => {$(deleted_text).fadeOut(1000)},2000);
         undo_elements = [];
         index = -1;
     }
