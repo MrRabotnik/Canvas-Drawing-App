@@ -344,6 +344,7 @@ label{
 }
 
 #line_box_before_drawing{
+    transform-origin: 0 0;
     border-top: 0.1vw dashed blue;
     background: transparent;
 }

@@ -77,7 +77,7 @@ let text_box = document.getElementById("text_box_before_drawing");
 let line_tool_box = document.getElementsByClassName("shape_box")[4];
 let blue_pressed = false
 let canvasLeaved = false
-let canvasW,canvasH;
+let canvasW,canvasH,backupCanvasImage;
 
 //=================================================================
 //                        WINDOW ON LOAD FUNCTIONS
@@ -128,7 +128,9 @@ function startDrawing(e) {
             topMouseY = e.clientY
     };
     clearTimeout(savingTimeOut)
+    backupCanvasImage = canvas.toDataURL();
     Draw(e);
+    ctx.drawImage(img,0,0,canvas.width,canvas.height)
 }
 
 function endDrawing(e) {
@@ -211,7 +213,14 @@ function Draw(e){
             break;
         case "tool_line":
             nulifyingEverythingWithTools();   
-            showingLineBoxBeforeStroking(e,"line_box_before_drawing")
+            elem = document.getElementById("line_box_before_drawing");
+            ctx.clearRect(0,0,canvas.width,canvas.height)
+            img.setAttribute("src",backupCanvasImage)
+            ctx.drawImage(img,0,0,canvas.width,canvas.height)
+            ctx.moveTo(topMouseX,topMouseY - tool_container_height)
+            ctx.lineTo(e.clientX,e.clientY - tool_container_height)
+            ctx.stroke()
+            ctx.beginPath()
             break;
         case "tool_color_picker":
             nulifyingEverythingWithTools();   
@@ -379,18 +388,6 @@ function showingBoxBeforeDrawingShape(e,currentBox){
         elem.style.width = `${e.clientX - topMouseX}px`;
         elem.style.height = `${e.clientY - topMouseY}px`;
     }
-}
-
-function showingLineBoxBeforeStroking(e,currentBox){
-    elem = document.getElementById(currentBox)
-    let angle = -50;
-    elem.style.display = "block";
-    elem.style.borderWidth = `${size}px`;
-    elem.style.borderColor = color;
-    elem.style.left = `${topMouseX}px`;
-    elem.style.top = `${topMouseY}px`;
-    elem.style.width = `${topMouseX - e.clientX}px`;
-    elem.style.transform = `rotate(${angle}deg)`;
 }
 
 function drawingDecidedShape(){
