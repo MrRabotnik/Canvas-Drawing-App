@@ -45,8 +45,8 @@ let toolSelection = {
     tool_zoom_out:"fas fa-search-minus",
 };
 let cursorImages = {
-    tool_pencil:"url('Images/pencil.png'),auto;",
-    tool_fill:"url('Images/fill-color.png'),auto;",
+    tool_pencil:"url(Images/pencil.png),auto;",
+    tool_fill:"url(Images/fill-color.png),auto;",
     tool_square_fill:"",
     tool_square_stroke:"",
     tool_circle_fill:"",
@@ -292,7 +292,7 @@ function clearCanvasButton(){
     eraser.style.backgroundColor = "rgb(245,245,245)";
     selected =  false;
     if(localStorage.getItem("autoSaveEnabled") == "checked"){
-        savingTimeOut = setTimeout(saveButton,2000)
+        savingTimeOut = setTimeout(saveButton,1000)
     }
     shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
     localStorage.setItem("cleared","cleared")
@@ -305,7 +305,7 @@ function clearCanvasWithR(e){
         eraser.style.backgroundColor = "rgb(245,245,245)";
         selected =  false;
         if(localStorage.getItem("autoSaveEnabled") == "checked"){
-            savingTimeOut = setTimeout(saveButton,2000)
+            savingTimeOut = setTimeout(saveButton,1000)
         }
         shape_boxes_arr[shape_boxes_arr.length - 1].style.display = "none";
         localStorage.setItem("cleared","cleared")
