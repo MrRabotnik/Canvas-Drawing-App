@@ -129,8 +129,9 @@ function startDrawing(e) {
     };
     clearTimeout(savingTimeOut)
     backupCanvasImage = canvas.toDataURL();
-    Draw(e);
-    ctx.drawImage(img,0,0,canvas.width,canvas.height)
+    if(currentToolId !== "tool_line"){
+        Draw(e);
+    }
 }
 
 function endDrawing(e) {

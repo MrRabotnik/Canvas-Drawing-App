@@ -81,7 +81,7 @@ a{
 //              DRAWING TOOLS
 =============================================*/
 
-button,#size,#shapes,#tools{
+button,#size,#tools{
     z-index: 2;
     margin: 0;
     width: 7%;
@@ -93,7 +93,7 @@ button,#size,#shapes,#tools{
     transition: 0.8s;
     cursor: pointer;
 }
-button:hover, #size:hover,#shapes:hover,#tools:hover{
+button:hover, #size:hover,#tools:hover{
     background: white;
     color: #111;
 }
@@ -140,7 +140,7 @@ option{
     transition: 1s;
 }
 
-#color{
+#built_in_colors{
     width: 10%;
     border-width: 0.2vw;
     border-radius: 0.4vw;
@@ -152,7 +152,21 @@ option{
     cursor: pointer;
 }
 
-#color option{
+#color{
+    margin: 0 1%;
+    padding: 0;
+    width: 10%;
+    height: 2.4vw;
+    border-width: 0.2vw;
+    border-radius: 0.4vw;
+    background: black;
+    color: white;
+    transition: 0.5s;
+    outline: none;
+    cursor: pointer;
+}
+
+#built_in_colors option{
     color: transparent;
 }
 
