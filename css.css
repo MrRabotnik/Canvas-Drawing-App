@@ -108,12 +108,13 @@ button:hover, #size:hover,#tools:hover{
     background: rgb(245,245,245);
 }
 
-#save{
-    width: 3%;
-    cursor: not-allowed !important;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+#to_pixel_page{
+    height: 2.7vw;
+    width: 12%;
+}
+
+#btn{
+    margin: 0 1.2% !important;
 }
 
 #eraser{
@@ -124,7 +125,6 @@ button:hover, #size:hover,#tools:hover{
     align-items: center;
     transition: 0.5s;
     cursor: pointer;
-    /* cursor: url("Images/eraser_cur.png"), pointer; */
 }
 
 #tools_container button,select,div{
@@ -218,13 +218,24 @@ option{
 
 #small_btns_container{
     position: absolute;
-    width: 11%;
+    width: 15%;
     height: 2.5vw;
     right: 0;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
     padding: 0;
+}
+
+#save{
+    width: 25%;
+    height: 100%;
+    margin-right: 1% !important;
+    padding: .6% 0 !important;
+    cursor: not-allowed !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #delete_storage{
@@ -234,7 +245,7 @@ option{
     display: flex;
     justify-content: space-evenly;
     align-items: center;
-    margin: 1%;
+    margin-right: 1% !important;
 }
 
 #delete_storage:hover{
