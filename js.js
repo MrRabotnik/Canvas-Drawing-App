@@ -340,13 +340,6 @@ function changeColor(){
     color = document.getElementById("color").value;
     selected =  false
     eraser.style.backgroundColor = "rgb(245,245,245)";
-    colorSelect.style.backgroundColor = color;
-    colorSelect.style.borderColor = color;
-    if(colorsThatNeedWhite.includes(color)){
-        colorSelect.style.color = "white";
-    }else{
-        colorSelect.style.color = "black";
-    }
     dropDown.style.color = color;
 }
 
@@ -632,8 +625,6 @@ document.addEventListener("keyup",blurDeselecting)
 
 //Mouse move,over,out, leave
 canvas.addEventListener("mousemove",Draw);
-colorSelect.addEventListener("mouseover",() => {colorSelect.style.boxShadow = `0 0 1vw ${color}`;})
-colorSelect.addEventListener("mouseout",() => {colorSelect.style.boxShadow = `none`;})
 canvas.addEventListener("mouseleave",leavingCanvas);
 
 //Click, change and focus

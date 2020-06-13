@@ -156,18 +156,10 @@ option{
     margin: 0 1%;
     padding: 0;
     width: 10%;
-    height: 2.4vw;
-    border-width: 0.2vw;
-    border-radius: 0.4vw;
-    background: black;
-    color: white;
-    transition: 0.5s;
+    height: 3.2vw;
+    border: 0;
     outline: none;
     cursor: pointer;
-}
-
-#built_in_colors option{
-    color: transparent;
 }
 
 #canvas_img{
